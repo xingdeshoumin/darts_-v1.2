@@ -1,0 +1,13 @@
+{
+  "files.associations": {
+    "chassis_behavior.h": "c",
+    "cmath": "c",
+    "judge.h": "c",
+    "oled.h": "c",
+    "main.h": "c",
+    "stdlib.h": "c",
+    "oledfont.h": "c",
+    "gpio.h": "c",
+    "spi.h": "c"
+  }
+}
