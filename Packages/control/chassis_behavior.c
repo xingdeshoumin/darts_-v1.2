@@ -134,19 +134,19 @@ void rc_to_motor(void)
 			FL_V_Init_flag = 1;
 		}
 		
-		FL.V -= (RC_Ctl.rc.ditl-1024)*0.005f;
+		FL.V -= (RC_Ctl.rc.ch0-1024)*0.005f; // RC_Ctl.rc.ditl
 
-		FL.V = fmaxf(FL.V, 6800.0f);
+		FL.V = fmaxf(FL.V, 4500.0f);
 		FL.V = fminf(FL.V, 7800.0f);
 	}
 	if(RC_Ctl.rc.s1 == 2&&RC_Ctl.rc.s2 == 1)
 	{
 		flag_zero = 0;
-		if ((RC_Ctl.rc.ditl-1024) < -300)
+		if ((RC_Ctl.rc.ch0-1024) < -300)
 		{
 			low_FLV_flag = 0;
 		}
-		else if ((RC_Ctl.rc.ditl-1024) > 300)
+		else if ((RC_Ctl.rc.ch0-1024) > 300)
 		{
 			low_FLV_flag = 1;
 		}

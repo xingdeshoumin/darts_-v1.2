@@ -9,6 +9,7 @@
 "darts_v1.0\usart.o"
 "darts_v1.0\stm32f4xx_it.o"
 "darts_v1.0\stm32f4xx_hal_msp.o"
+"darts_v1.0\stm32f4xx_hal_timebase_tim.o"
 "darts_v1.0\stm32f4xx_hal_can.o"
 "darts_v1.0\stm32f4xx_hal_rcc.o"
 "darts_v1.0\stm32f4xx_hal_rcc_ex.o"

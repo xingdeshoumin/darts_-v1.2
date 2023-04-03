@@ -6,6 +6,7 @@
 #include "math.h"
 
 float F_P=7,F_I=0.5,F_D=0.5;//Ä¦²ÁÂÖPID P£º6~10
+float F_F=0.5; // Ä¦²ÁÂÖÇ°À¡
 //8 0.2 70
 
 

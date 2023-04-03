@@ -30,6 +30,8 @@ darts_v1.0\debugtask.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_
 darts_v1.0\debugtask.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 darts_v1.0\debugtask.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 darts_v1.0\debugtask.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h
+darts_v1.0\debugtask.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
+darts_v1.0\debugtask.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 darts_v1.0\debugtask.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 darts_v1.0\debugtask.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 darts_v1.0\debugtask.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
@@ -46,17 +48,17 @@ darts_v1.0\debugtask.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timer
 darts_v1.0\debugtask.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 darts_v1.0\debugtask.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 darts_v1.0\debugtask.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
-darts_v1.0\debugtask.o: ..\Packages\Sys_debug\STMGood.h
-darts_v1.0\debugtask.o: ..\Packages\bsp\bsp_usart.h
+darts_v1.0\debugtask.o: ../Packages/Sys_debug/STMGood.h
+darts_v1.0\debugtask.o: ../Packages/bsp/bsp_usart.h
 darts_v1.0\debugtask.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 darts_v1.0\debugtask.o: ../Core/Inc/usart.h
 darts_v1.0\debugtask.o: ../Core/Inc/main.h
-darts_v1.0\debugtask.o: ..\Packages\bsp\bsp_can.h
-darts_v1.0\debugtask.o: ..\Packages\control\chassis_control.h
-darts_v1.0\debugtask.o: ..\Packages\Algorithm\pid.h
+darts_v1.0\debugtask.o: ../Packages/bsp/bsp_can.h
+darts_v1.0\debugtask.o: ../Packages/control/chassis_control.h
+darts_v1.0\debugtask.o: ../Packages/Algorithm/pid.h
 darts_v1.0\debugtask.o: ..\Packages\Free_Task\motorTask.h
-darts_v1.0\debugtask.o: ..\Packages\control\chassis_behavior.h
-darts_v1.0\debugtask.o: ..\Packages\bsp\bsp_dubs.h
-darts_v1.0\debugtask.o: ..\Packages\bsp\oled.h
+darts_v1.0\debugtask.o: ../Packages/control/chassis_behavior.h
+darts_v1.0\debugtask.o: ../Packages/bsp/bsp_dubs.h
+darts_v1.0\debugtask.o: ../Packages/bsp/oled.h
 darts_v1.0\debugtask.o: ../Core/Inc/gpio.h
 darts_v1.0\debugtask.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h

@@ -30,6 +30,8 @@ darts_v1.0\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfu
 darts_v1.0\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 darts_v1.0\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 darts_v1.0\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h
+darts_v1.0\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
+darts_v1.0\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 darts_v1.0\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 darts_v1.0\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 darts_v1.0\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
@@ -50,9 +52,9 @@ darts_v1.0\main.o: ../Core/Inc/dma.h
 darts_v1.0\main.o: ../Core/Inc/spi.h
 darts_v1.0\main.o: ../Core/Inc/usart.h
 darts_v1.0\main.o: ../Core/Inc/gpio.h
-darts_v1.0\main.o: ..\Packages\bsp\bsp_can.h
-darts_v1.0\main.o: ..\Packages\bsp\bsp_usart.h
+darts_v1.0\main.o: ../Packages/bsp/bsp_can.h
+darts_v1.0\main.o: ../Packages/bsp/bsp_usart.h
 darts_v1.0\main.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-darts_v1.0\main.o: ..\Packages\Sys_debug\STMGood.h
-darts_v1.0\main.o: ..\Packages\bsp\bsp_dubs.h
-darts_v1.0\main.o: ..\Packages\bsp\bsp_io.h
+darts_v1.0\main.o: ../Packages/Sys_debug/STMGood.h
+darts_v1.0\main.o: ../Packages/bsp/bsp_dubs.h
+darts_v1.0\main.o: ../Packages/bsp/bsp_io.h

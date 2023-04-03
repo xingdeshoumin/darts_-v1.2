@@ -30,10 +30,12 @@ darts_v1.0\chassis_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_
 darts_v1.0\chassis_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 darts_v1.0\chassis_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 darts_v1.0\chassis_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h
+darts_v1.0\chassis_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
+darts_v1.0\chassis_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 darts_v1.0\chassis_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-darts_v1.0\chassis_control.o: ..\Packages\Sys_debug\STMGood.h
-darts_v1.0\chassis_control.o: ..\Packages\Algorithm\pid.h
+darts_v1.0\chassis_control.o: ../Packages/Sys_debug/STMGood.h
+darts_v1.0\chassis_control.o: ../Packages/Algorithm/pid.h
 darts_v1.0\chassis_control.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\string.h
 darts_v1.0\chassis_control.o: ..\Packages\control\chassis_behavior.h
-darts_v1.0\chassis_control.o: ..\Packages\bsp\bsp_dubs.h
+darts_v1.0\chassis_control.o: ../Packages/bsp/bsp_dubs.h
 darts_v1.0\chassis_control.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\math.h

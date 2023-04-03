@@ -30,10 +30,12 @@ darts_v1.0\bsp_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ra
 darts_v1.0\bsp_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 darts_v1.0\bsp_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 darts_v1.0\bsp_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h
+darts_v1.0\bsp_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
+darts_v1.0\bsp_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 darts_v1.0\bsp_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 darts_v1.0\bsp_can.o: ../Core/Inc/can.h
 darts_v1.0\bsp_can.o: ../Core/Inc/main.h
-darts_v1.0\bsp_can.o: ..\Packages\control\chassis_control.h
-darts_v1.0\bsp_can.o: ..\Packages\Sys_debug\STMGood.h
-darts_v1.0\bsp_can.o: ..\Packages\Algorithm\pid.h
-darts_v1.0\bsp_can.o: ..\Packages\control\chassis_behavior.h
+darts_v1.0\bsp_can.o: ../Packages/control/chassis_control.h
+darts_v1.0\bsp_can.o: ../Packages/Sys_debug/STMGood.h
+darts_v1.0\bsp_can.o: ../Packages/Algorithm/pid.h
+darts_v1.0\bsp_can.o: ../Packages/control/chassis_behavior.h

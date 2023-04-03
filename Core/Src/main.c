@@ -100,6 +100,7 @@ int main(void)
   MX_USART6_UART_Init();
   MX_UART7_Init();
   MX_SPI1_Init();
+  MX_SPI5_Init();
   /* USER CODE BEGIN 2 */
   USART_DMA_Enable(&huart1,&hdma_usart1_rx,usart1_rx_buffer,15);
 	USART_Enable(&huart6,usart6_rx_buffer,1);
@@ -180,6 +181,27 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
+
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM14 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* USER CODE BEGIN Callback 0 */
+
+  /* USER CODE END Callback 0 */
+  if (htim->Instance == TIM14) {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
+
+  /* USER CODE END Callback 1 */
+}
 
 /**
   * @brief  This function is executed in case of error occurrence.

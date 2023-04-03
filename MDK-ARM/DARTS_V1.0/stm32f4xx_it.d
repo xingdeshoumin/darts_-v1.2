@@ -30,18 +30,11 @@ darts_v1.0\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_fla
 darts_v1.0\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 darts_v1.0\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 darts_v1.0\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h
+darts_v1.0\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
+darts_v1.0\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 darts_v1.0\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 darts_v1.0\stm32f4xx_it.o: ../Core/Inc/stm32f4xx_it.h
-darts_v1.0\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-darts_v1.0\stm32f4xx_it.o: ../Core/Inc/FreeRTOSConfig.h
-darts_v1.0\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
-darts_v1.0\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
-darts_v1.0\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
-darts_v1.0\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
-darts_v1.0\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
-darts_v1.0\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
-darts_v1.0\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
-darts_v1.0\stm32f4xx_it.o: ..\Packages\bsp\bsp_usart.h
+darts_v1.0\stm32f4xx_it.o: ../Packages/bsp/bsp_usart.h
 darts_v1.0\stm32f4xx_it.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 darts_v1.0\stm32f4xx_it.o: ../Core/Inc/usart.h
-darts_v1.0\stm32f4xx_it.o: ..\Packages\Sys_debug\STMGood.h
+darts_v1.0\stm32f4xx_it.o: ../Packages/Sys_debug/STMGood.h
