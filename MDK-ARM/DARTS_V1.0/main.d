@@ -58,3 +58,10 @@ darts_v1.0\main.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 darts_v1.0\main.o: ../Packages/Sys_debug/STMGood.h
 darts_v1.0\main.o: ../Packages/bsp/bsp_dubs.h
 darts_v1.0\main.o: ../Packages/bsp/bsp_io.h
+darts_v1.0\main.o: ../Packages/bsp/bsp_imu.h
+darts_v1.0\main.o: ../Packages/bsp/mytype.h
+darts_v1.0\main.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+darts_v1.0\main.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+darts_v1.0\main.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+darts_v1.0\main.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\string.h
+darts_v1.0\main.o: ../Packages/bsp/bsp_dwt.h

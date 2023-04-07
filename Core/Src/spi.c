@@ -27,6 +27,8 @@
 SPI_HandleTypeDef hspi1;
 SPI_HandleTypeDef hspi5;
 DMA_HandleTypeDef hdma_spi1_tx;
+DMA_HandleTypeDef hdma_spi5_rx;
+DMA_HandleTypeDef hdma_spi5_tx;
 
 /* SPI1 init function */
 void MX_SPI1_Init(void)
@@ -77,8 +79,8 @@ void MX_SPI5_Init(void)
   hspi5.Init.DataSize = SPI_DATASIZE_8BIT;
   hspi5.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi5.Init.CLKPhase = SPI_PHASE_1EDGE;
-  hspi5.Init.NSS = SPI_NSS_HARD_OUTPUT;
-  hspi5.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+  hspi5.Init.NSS = SPI_NSS_SOFT;
+  hspi5.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_128;
   hspi5.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi5.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi5.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -127,7 +129,7 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
 
     /* SPI1 DMA Init */
     /* SPI1_TX Init */
-    hdma_spi1_tx.Instance = DMA2_Stream3;
+    hdma_spi1_tx.Instance = DMA2_Stream5;
     hdma_spi1_tx.Init.Channel = DMA_CHANNEL_3;
     hdma_spi1_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
     hdma_spi1_tx.Init.PeriphInc = DMA_PINC_DISABLE;
@@ -159,16 +161,52 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
     __HAL_RCC_GPIOF_CLK_ENABLE();
     /**SPI5 GPIO Configuration
     PF7     ------> SPI5_SCK
-    PF6     ------> SPI5_NSS
     PF9     ------> SPI5_MOSI
     PF8     ------> SPI5_MISO
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_7|GPIO_PIN_6|GPIO_PIN_9|GPIO_PIN_8;
+    GPIO_InitStruct.Pin = GPIO_PIN_7|GPIO_PIN_9|GPIO_PIN_8;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF5_SPI5;
     HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+    /* SPI5 DMA Init */
+    /* SPI5_RX Init */
+    hdma_spi5_rx.Instance = DMA2_Stream3;
+    hdma_spi5_rx.Init.Channel = DMA_CHANNEL_2;
+    hdma_spi5_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
+    hdma_spi5_rx.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_spi5_rx.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_spi5_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+    hdma_spi5_rx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+    hdma_spi5_rx.Init.Mode = DMA_NORMAL;
+    hdma_spi5_rx.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+    hdma_spi5_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+    if (HAL_DMA_Init(&hdma_spi5_rx) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
+    __HAL_LINKDMA(spiHandle,hdmarx,hdma_spi5_rx);
+
+    /* SPI5_TX Init */
+    hdma_spi5_tx.Instance = DMA2_Stream4;
+    hdma_spi5_tx.Init.Channel = DMA_CHANNEL_2;
+    hdma_spi5_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
+    hdma_spi5_tx.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_spi5_tx.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_spi5_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+    hdma_spi5_tx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+    hdma_spi5_tx.Init.Mode = DMA_NORMAL;
+    hdma_spi5_tx.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+    hdma_spi5_tx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+    if (HAL_DMA_Init(&hdma_spi5_tx) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
+    __HAL_LINKDMA(spiHandle,hdmatx,hdma_spi5_tx);
 
   /* USER CODE BEGIN SPI5_MspInit 1 */
 
@@ -211,12 +249,14 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
 
     /**SPI5 GPIO Configuration
     PF7     ------> SPI5_SCK
-    PF6     ------> SPI5_NSS
     PF9     ------> SPI5_MOSI
     PF8     ------> SPI5_MISO
     */
-    HAL_GPIO_DeInit(GPIOF, GPIO_PIN_7|GPIO_PIN_6|GPIO_PIN_9|GPIO_PIN_8);
+    HAL_GPIO_DeInit(GPIOF, GPIO_PIN_7|GPIO_PIN_9|GPIO_PIN_8);
 
+    /* SPI5 DMA DeInit */
+    HAL_DMA_DeInit(spiHandle->hdmarx);
+    HAL_DMA_DeInit(spiHandle->hdmatx);
   /* USER CODE BEGIN SPI5_MspDeInit 1 */
 
   /* USER CODE END SPI5_MspDeInit 1 */

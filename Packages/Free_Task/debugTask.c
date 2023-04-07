@@ -8,6 +8,7 @@
 #include "chassis_behavior.h"
 #include "bsp_dubs.h"
 #include "oled.h" 
+#include "bsp_imu.h"
 
 
 void StartdebugTask(void const * argument)
@@ -21,7 +22,9 @@ void StartdebugTask(void const * argument)
   /* Infinite loop */
   	for(;;)
   	{
-		uart_dma_printf(&huart7, "%d, %d, %d, %d, %d, %d, %4.3f, %d, %4.3f, %d, %4.3f, %4.3f, %d\n", 
+        mpu_get_data(&MPU6500);
+
+		uart_dma_printf(&huart7, "%d, %d, %d, %d, %d, %d, %4.3f, %d, %4.3f, %d, %4.3f, %4.3f, %d, %4.3f, %4.3f, %4.3f, %4.3f, %4.3f, %4.3f\n", 
 		fire_l.esc_back_speed, 
 		fire_l.out_current,
 		-fire_r.esc_back_speed,
@@ -34,7 +37,13 @@ void StartdebugTask(void const * argument)
 		yaw.esc_back_speed,
 		YAW_S_PID.PIDout,
 		PL.num,
-		motor.circle_num
+		motor.circle_num,
+        MPU6500.Accel[0],
+        MPU6500.Accel[1],
+        MPU6500.Accel[2],
+        MPU6500.Gyro[0],
+        MPU6500.Gyro[1],
+        MPU6500.Gyro[2]
 		);
 
 		OLED_Printf(0, 5, 24, "FL: ");

@@ -10,6 +10,19 @@
         "oledfont.h": "c",
         "gpio.h": "c",
         "spi.h": "c",
-        "stm32f4xx.h": "c"
+        "stm32f4xx.h": "c",
+        "stmgood.h": "c",
+        "stdint.h": "c",
+        "stm32f4xx_hal.h": "c",
+        "mpu6600.h": "c",
+        "stm32f4xx_hal_conf.h": "c",
+        "bsp_usart.h": "c",
+        "mpu6500_reg.h": "c",
+        "bsp_imu.h": "c",
+        "chassis_control.h": "c",
+        "stdio.h": "c",
+        "ist8310_reg.h": "c",
+        "mytype.h": "c",
+        "bsp_dwt.h": "c"
     }
 }

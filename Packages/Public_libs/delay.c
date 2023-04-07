@@ -1,8 +1,8 @@
 #include "delay.h"
 
 /**
-  * @brief          ä½¿ç”¨å¾ªç¯è®¡æ•°å»¶è¿Ÿä¸€æ®µæ—¶é—´
-  * @param[in]      us:uså¾®ç§’
+  * @brief          Ê¹ÓÃÑ­»·¼ÆÊıÑÓ³ÙÒ»¶ÎÊ±¼ä
+  * @param[in]      us:usÎ¢Ãë
   * @retval         none
   */
 void user_delay_us(uint16_t us)
@@ -16,8 +16,8 @@ void user_delay_us(uint16_t us)
 	}
 }
 /**
-  * @brief          ä½¿ç”¨user_delay_uså‡½æ•°å»¶è¿Ÿä¸€æ®µæ—¶é—´
-  * @param[in]      ms:msæ¯«ç§’
+  * @brief          Ê¹ÓÃuser_delay_usº¯ÊıÑÓ³ÙÒ»¶ÎÊ±¼ä
+  * @param[in]      ms:msºÁÃë
   * @retval         none
   */
 void user_delay_ms(uint16_t ms)
@@ -28,8 +28,8 @@ void user_delay_ms(uint16_t ms)
 	}
 }
 /**
-  * @brief          ä½¿ç”¨nopå‡½æ•°å»¶è¿Ÿä¸€æ®µæ—¶é—´
-  * @param[in]      us:uså¾®ç§’
+  * @brief          Ê¹ÓÃnopº¯ÊıÑÓ³ÙÒ»¶ÎÊ±¼ä
+  * @param[in]      us:usÎ¢Ãë
   * @retval         none
   */
 //void nop_delay_us(uint16_t us)
@@ -57,8 +57,8 @@ void user_delay_ms(uint16_t ms)
 //    }
 //}
 /**
-  * @brief          ä½¿ç”¨nop_delay_uså‡½æ•°å»¶è¿Ÿä¸€æ®µæ—¶é—´
-  * @param[in]      ms:msæ¯«ç§’
+  * @brief          Ê¹ÓÃnop_delay_usº¯ÊıÑÓ³ÙÒ»¶ÎÊ±¼ä
+  * @param[in]      ms:msºÁÃë
   * @retval         none
   */
 //void nop_delay_ms(uint16_t ms)

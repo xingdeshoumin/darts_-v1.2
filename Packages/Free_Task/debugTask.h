@@ -2,6 +2,7 @@
 #define DEBUGTASK_H
 
 #include "stm32f4xx.h"
+#include "stdio.h"
 #include <stdarg.h>
 
 void uart_dma_printf(UART_HandleTypeDef *huart, char *fmt, ...)

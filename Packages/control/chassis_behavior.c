@@ -7,7 +7,7 @@
 #include "cmath"
 #include "judge.h"
 
-#define motor_lence 805
+#define motor_lence 750
 #define fire_speed 7450.0f
 
 #define R_1 {1, 1, -75.0, 7350.0f, 0.0}
@@ -134,7 +134,7 @@ void rc_to_motor(void)
 			FL_V_Init_flag = 1;
 		}
 		
-		FL.V -= (RC_Ctl.rc.ch0-1024)*0.005f; // RC_Ctl.rc.ditl
+		FL.V -= (RC_Ctl.rc.ditl-1024)*0.005f; // RC_Ctl.rc.ditl // RC_Ctl.rc.ch0
 
 		FL.V = fmaxf(FL.V, 4500.0f);
 		FL.V = fminf(FL.V, 7800.0f);
@@ -142,11 +142,11 @@ void rc_to_motor(void)
 	if(RC_Ctl.rc.s1 == 2&&RC_Ctl.rc.s2 == 1)
 	{
 		flag_zero = 0;
-		if ((RC_Ctl.rc.ch0-1024) < -300)
+		if ((RC_Ctl.rc.ditl-1024) < -300)
 		{
 			low_FLV_flag = 0;
 		}
-		else if ((RC_Ctl.rc.ch0-1024) > 300)
+		else if ((RC_Ctl.rc.ditl-1024) > 300)
 		{
 			low_FLV_flag = 1;
 		}

@@ -32,6 +32,8 @@
 #include "bsp_usart.h"
 #include "bsp_dubs.h"
 #include "bsp_io.h"
+#include "bsp_imu.h"
+#include "bsp_dwt.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -103,20 +105,21 @@ int main(void)
   MX_SPI5_Init();
   /* USER CODE BEGIN 2 */
   USART_DMA_Enable(&huart1,&hdma_usart1_rx,usart1_rx_buffer,15);
-	USART_Enable(&huart6,usart6_rx_buffer,1);
-	USART_Enable(&huart7,&usart7_rx_buffer,1);
+  USART_Enable(&huart6,usart6_rx_buffer,1);
+  USART_Enable(&huart7,&usart7_rx_buffer,1);
   CAN_Enable(&hcan1);
-	dubs_data_init();
-	io_init();
-	
+  dubs_data_init();
+  io_init();
+  DWT_Init(180);
+  mpu_device_init(&hspi5, 1);
 	
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
   MX_FREERTOS_Init();
+
   /* Start scheduler */
   osKernelStart();
-
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -142,6 +145,7 @@ void SystemClock_Config(void)
   */
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
@@ -157,12 +161,14 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+
   /** Activate the Over-Drive mode
   */
   if (HAL_PWREx_EnableOverDrive() != HAL_OK)
   {
     Error_Handler();
   }
+
   /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
@@ -231,4 +237,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-

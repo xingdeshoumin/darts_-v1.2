@@ -46,6 +46,8 @@
 "darts_v1.0\bsp_io.o"
 "darts_v1.0\bsp_flash.o"
 "darts_v1.0\oled.o"
+"darts_v1.0\bsp_imu.o"
+"darts_v1.0\bsp_dwt.o"
 "darts_v1.0\chassis_behavior.o"
 "darts_v1.0\chassis_control.o"
 "darts_v1.0\debugtask.o"
