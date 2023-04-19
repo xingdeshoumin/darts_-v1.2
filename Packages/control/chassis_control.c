@@ -5,9 +5,9 @@
 #include "STMGood.h"
 #include "math.h"
 
-float F_P=7,F_I=0.5,F_D=0.5;//Ä¦²ÁÂÖPID P£º6~10
-float F_F=0.5; // Ä¦²ÁÂÖÇ°À¡
-//8 0.2 70
+float F_P=10,F_I=6.0,F_D=0;//Ä¦²ÁÂÖPID P£º6~10
+float F_F=0.08; // Ä¦²ÁÂÖÇ°À¡
+float YAW_F = 0.1; // yawÇ°À¡
 
 
 s_pid_absolute_t  MOTOR_S_PID= {0};
@@ -93,8 +93,12 @@ void chassis_motor_control_loop_pid_control(void)
 	MOTOR_P_PID.NowError = motor.target_position - motor.serial_position;
 	PITCH_P_PID.NowError =pitch.target_position - pitch.serial_position;
 	YAW_P_PID.NowError = yaw.target_position - yaw.serial_position;
-	FIRE_L_S_PID.NowError = fire_l.target_speed - fire_l.esc_back_speed;
-	FIRE_R_S_PID.NowError = fire_r.target_speed - fire_r.esc_back_speed;
+
+    fire_l.average_speed = (1.0f - SPEED_SMOOTH_COEF) * fire_l.average_speed + SPEED_SMOOTH_COEF * fire_l.esc_back_speed;
+    fire_r.average_speed = (1.0f - SPEED_SMOOTH_COEF) * fire_r.average_speed + SPEED_SMOOTH_COEF * fire_r.esc_back_speed;
+    
+	FIRE_L_S_PID.NowError = fire_l.target_speed - fire_l.average_speed;
+	FIRE_R_S_PID.NowError = fire_r.target_speed - fire_r.average_speed;
 	
 	PID_AbsoluteMode(&MOTOR_P_PID);
 	PID_AbsoluteMode(&PITCH_P_PID);
@@ -114,12 +118,8 @@ void chassis_motor_control_loop_pid_control(void)
 	motor.out_current = MOTOR_S_PID.PIDout;
 	pitch.out_current = PITCH_S_PID.PIDout;
 	yaw.out_current = YAW_S_PID.PIDout;
-	fire_l.out_current = FIRE_L_S_PID.PIDout;
-	fire_r.out_current = FIRE_R_S_PID.PIDout;
-	
-	DEVIATION_PID.NowError = fire_l.average_speed+fire_r.average_speed;
-	PID_AbsoluteMode(&DEVIATION_PID);
-	deviation_out = DEVIATION_PID.PIDout;
+	fire_l.out_current = FIRE_L_S_PID.PIDout + F_F * fire_l.target_speed;
+	fire_r.out_current = FIRE_R_S_PID.PIDout - F_F * fire_r.target_speed;
 }
 
 float YL_error_correction(float YL)

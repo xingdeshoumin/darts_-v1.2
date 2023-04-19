@@ -5,7 +5,7 @@
 #include "STMGood.h"
 #include "pid.h"
 
-
+#define SPEED_SMOOTH_COEF 0.01f
 
 typedef float fp32;
 typedef double fp64;
@@ -36,7 +36,7 @@ typedef struct
 	int16_t eer_eer;
 	int receive_no;	//中断次数（速度大于400）
 	int64_t sum_speed;	//返回速度总和
-	int16_t average_speed;	//平均速度
+	float average_speed;	//滤波后速度
 	/* 目标值 */
 	float   target_speed;            //目标速度
 	float  target_position;         //目标位置

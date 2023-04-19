@@ -473,12 +473,12 @@ void Calibrate_MPU_Offset(IMU_Data_t *mpu6500)
         caliCount++;
     } while (gNormDiff > 1.0f ||
              fabsf(mpu6500->gNorm - 9.8f) > 1.0f ||
-             gyroDiff[0] > 0.15f ||
-             gyroDiff[1] > 0.15f ||
-             gyroDiff[2] > 0.15f ||
-             fabsf(mpu6500->GyroOffset[0]) > 0.03f ||
-             fabsf(mpu6500->GyroOffset[1]) > 0.03f ||
-             fabsf(mpu6500->GyroOffset[2]) > 0.03f);
+             gyroDiff[0] > 0.05f ||
+             gyroDiff[1] > 0.05f ||
+             gyroDiff[2] > 0.05f ||
+             fabsf(mpu6500->GyroOffset[0]) > 0.1f ||
+             fabsf(mpu6500->GyroOffset[1]) > 0.1f ||
+             fabsf(mpu6500->GyroOffset[2]) > 0.1f);
 
     // 根据标定结果校准加速度计标度因数
     mpu6500->AccelScale = 9.81f / mpu6500->gNorm;

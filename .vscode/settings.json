@@ -23,6 +23,17 @@
         "stdio.h": "c",
         "ist8310_reg.h": "c",
         "mytype.h": "c",
-        "bsp_dwt.h": "c"
+        "bsp_dwt.h": "c",
+        "controller.h": "c",
+        "ins_task.h": "c",
+        "quaternionekf.h": "c",
+        "kalman_filter.h": "c",
+        "bsp_pwm.h": "c",
+        "tim.h": "c",
+        "user_lib.h": "c",
+        "arm_math.h": "c",
+        "stm32f427xx.h": "c",
+        "string.h": "c",
+        "bsp_flash.h": "c"
     }
 }

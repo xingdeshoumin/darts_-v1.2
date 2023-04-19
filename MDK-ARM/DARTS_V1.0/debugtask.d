@@ -66,3 +66,14 @@ darts_v1.0\debugtask.o: ../Packages/bsp/bsp_imu.h
 darts_v1.0\debugtask.o: ../Packages/bsp/mytype.h
 darts_v1.0\debugtask.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 darts_v1.0\debugtask.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\string.h
+darts_v1.0\debugtask.o: ..\Packages\Free_Task\ins_task.h
+darts_v1.0\debugtask.o: ../Packages/Components/Algorithm/QuaternionEKF.h
+darts_v1.0\debugtask.o: ../Packages/Components/kalman_filter.h
+darts_v1.0\debugtask.o: ../Packages/Components/Algorithm/Include/arm_math.h
+darts_v1.0\debugtask.o: ../Drivers/CMSIS/Include/core_cm4.h
+darts_v1.0\debugtask.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\math.h
+darts_v1.0\debugtask.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+darts_v1.0\debugtask.o: ../Packages/Components/Controller/controller.h
+darts_v1.0\debugtask.o: ../Packages/bsp/bsp_dwt.h
+darts_v1.0\debugtask.o: ../Packages/Components/user_lib.h
+darts_v1.0\debugtask.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h

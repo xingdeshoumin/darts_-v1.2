@@ -50,6 +50,7 @@ darts_v1.0\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_grou
 darts_v1.0\main.o: ../Core/Inc/can.h
 darts_v1.0\main.o: ../Core/Inc/dma.h
 darts_v1.0\main.o: ../Core/Inc/spi.h
+darts_v1.0\main.o: ../Core/Inc/tim.h
 darts_v1.0\main.o: ../Core/Inc/usart.h
 darts_v1.0\main.o: ../Core/Inc/gpio.h
 darts_v1.0\main.o: ../Packages/bsp/bsp_can.h

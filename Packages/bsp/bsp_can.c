@@ -126,12 +126,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 				fire_l.esc_back_given_current = can1_rx_message.Data[4]<<8 | can1_rx_message.Data[5];//电调返回扭矩电流
 				fire_l.esc_back_temperature = can1_rx_message.Data[6];//电调返回温度
 				process_motor_encoder_to_serial(&fire_l);
-				if(fire_l.esc_back_speed>receive_limt||fire_l.esc_back_speed<-receive_limt)
-				{
-					fire_l.sum_speed+=fire_l.esc_back_speed;
-					fire_l.receive_no++;
-					fire_l.average_speed=fire_l.sum_speed/fire_l.receive_no;
-				}
+                
 				break;
 			}
 			
@@ -158,13 +153,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 				fire_r.esc_back_given_current = can1_rx_message.Data[4]<<8 | can1_rx_message.Data[5];//电调返回扭矩电流
 				fire_r.esc_back_temperature = can1_rx_message.Data[6];//电调返回温度
 				process_motor_encoder_to_serial(&fire_r);
-				if(fire_r.esc_back_speed>receive_limt||fire_r.esc_back_speed<-receive_limt)
-				{
-					fire_r.sum_speed+=fire_r.esc_back_speed;
-					fire_r.receive_no++;
-					fire_r.average_speed=fire_r.sum_speed/fire_r.receive_no;
-				}
-				
+                
 				break;
 			}
 			case 0x206:

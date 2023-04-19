@@ -1,11 +1,13 @@
 --cpu=Cortex-M4.fp.sp
 "darts_v1.0\startup_stm32f427xx.o"
+"..\Drivers\CMSIS\Lib\ARM\arm_cortexM4lf_math.lib"
 "darts_v1.0\main.o"
 "darts_v1.0\gpio.o"
 "darts_v1.0\freertos.o"
 "darts_v1.0\can.o"
 "darts_v1.0\dma.o"
 "darts_v1.0\spi.o"
+"darts_v1.0\tim.o"
 "darts_v1.0\usart.o"
 "darts_v1.0\stm32f4xx_it.o"
 "darts_v1.0\stm32f4xx_hal_msp.o"
@@ -48,15 +50,21 @@
 "darts_v1.0\oled.o"
 "darts_v1.0\bsp_imu.o"
 "darts_v1.0\bsp_dwt.o"
+"darts_v1.0\bsp_pwm.o"
 "darts_v1.0\chassis_behavior.o"
 "darts_v1.0\chassis_control.o"
 "darts_v1.0\debugtask.o"
 "darts_v1.0\motortask.o"
+"darts_v1.0\ins_task.o"
 "darts_v1.0\delay.o"
 "darts_v1.0\stmgood.o"
 "darts_v1.0\crc.o"
 "darts_v1.0\judge.o"
+"darts_v1.0\kalman_filter.o"
+"darts_v1.0\user_lib.o"
+"darts_v1.0\controller.o"
+"darts_v1.0\quaternionekf.o"
 --library_type=microlib --strict --scatter "DARTS_V1.0\DARTS_V1.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
---list "DARTS_V1.map" -o DARTS_V1.0\DARTS_V1.0
+--list "DARTS_V1.map" -o DARTS_V1.0\DARTS_V1.axf
