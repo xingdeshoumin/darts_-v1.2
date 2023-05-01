@@ -5,8 +5,8 @@
 #include "STMGood.h"
 #include "math.h"
 
-float F_P=10,F_I=6.0,F_D=0;//Ä¦²ÁÂÖPID P£º6~10
-float F_F=0.08; // Ä¦²ÁÂÖÇ°À¡
+float F_P=10,F_I=6.0,F_D=0.5;//Ä¦²ÁÂÖPID P£º6~10
+float F_F=0.012; // Ä¦²ÁÂÖÇ°À¡
 float YAW_F = 0.1; // yawÇ°À¡
 
 
@@ -66,8 +66,8 @@ void chassis_control_loop_reset(void)
 	pid_abs_param_init(&PITCH_S_PID,9,0.3,0,20000.0f,16000.0f);
 	pid_abs_param_init(&PITCH_P_PID,0.5,0.1,0,0.0f,4000.0f);
 	
-	pid_abs_param_init(&YAW_S_PID,15,0,2,20000.0f,28000.0f);
-	pid_abs_param_init(&YAW_P_PID,7,0.1,2.1,0.0f,4000.0f);
+	pid_abs_param_init(&YAW_S_PID,80,10,0,20000.0f,28000.0f);
+	pid_abs_param_init(&YAW_P_PID,5,80,0,0.0f,28000.0f);
 	
 	pid_abs_param_init(&FIRE_L_S_PID,F_P,F_I,F_D,20000.0f,16000.0f);
 
@@ -79,9 +79,9 @@ void chassis_control_loop_reset(void)
 
 void chassis_motor_control_loop_pid_control(void)
 {
-	YL.num += YL_error_correction(YL.num);
+	// YL.num += YL_error_correction(YL.num);
 	YL.num = fmaxf(YL.num, -2083.0f);
-	YL.num = fminf(YL.num, 3000.0f);
+	YL.num = fminf(YL.num, 1900.0f);
 	// FL.V += FL_error_correction();
 
 	motor.target_position = LL.num;
@@ -92,7 +92,10 @@ void chassis_motor_control_loop_pid_control(void)
 	
 	MOTOR_P_PID.NowError = motor.target_position - motor.serial_position;
 	PITCH_P_PID.NowError =pitch.target_position - pitch.serial_position;
-	YAW_P_PID.NowError = yaw.target_position - yaw.serial_position;
+
+    yaw.filted_position = (1.0f - POSITION_SMOOTH_COEF) * yaw.filted_position + POSITION_SMOOTH_COEF * yaw.serial_position;
+
+	YAW_P_PID.NowError = yaw.target_position - yaw.filted_position;
 
     fire_l.average_speed = (1.0f - SPEED_SMOOTH_COEF) * fire_l.average_speed + SPEED_SMOOTH_COEF * fire_l.esc_back_speed;
     fire_r.average_speed = (1.0f - SPEED_SMOOTH_COEF) * fire_r.average_speed + SPEED_SMOOTH_COEF * fire_r.esc_back_speed;

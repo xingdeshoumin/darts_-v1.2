@@ -27,7 +27,7 @@ const float zb[3] = {0, 0, 1};
 uint32_t INS_DWT_Count = 0;
 static float dt = 0, t = 0;
 uint8_t ins_debug_mode = 0;
-float RefTemp = 40;
+float RefTemp = 30;
 
 static void IMU_Param_Correction(IMU_Param_t *param, float gyro[3], float accel[3]);
 
@@ -41,8 +41,7 @@ void INS_Init(void)
     IMU_Param.Roll = 0;
     IMU_Param.flag = 1;
 
-    // IMU_QuaternionEKF_Init(10, 100000000, 10000000, 1, 0);
-    IMU_QuaternionEKF_Init(10, 0.001, 10000000, 1, 0);
+    IMU_QuaternionEKF_Init(100000000, 0.001, 10000000, 1, 0);
     // imu heat init
     PID_Init(&TempCtrl, 2000, 300, 0, 1000, 20, 0, 0, 0, 0, 0, 0, 0);
     HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);

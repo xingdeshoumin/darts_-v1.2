@@ -34,6 +34,7 @@
         "arm_math.h": "c",
         "stm32f427xx.h": "c",
         "string.h": "c",
-        "bsp_flash.h": "c"
+        "bsp_flash.h": "c",
+        "cmsis_os.h": "c"
     }
 }

@@ -5,7 +5,8 @@
 #include "STMGood.h"
 #include "pid.h"
 
-#define SPEED_SMOOTH_COEF 0.01f
+#define SPEED_SMOOTH_COEF 0.85f
+#define POSITION_SMOOTH_COEF 0.85f
 
 typedef float fp32;
 typedef double fp64;
@@ -24,6 +25,7 @@ typedef struct
 	int16_t esc_back_angle_last;
 	int64_t circle_num;              //电机旋转圈数
 	int64_t serial_position;         //最终处理后的码盘值
+    int64_t filted_position;         //滤波处理后的码盘值
 	int64_t position_angle;          //将码盘处理成角度
 	int16_t mid_position;            //位置中值 
 	int16_t max_position;            //位置最大值
