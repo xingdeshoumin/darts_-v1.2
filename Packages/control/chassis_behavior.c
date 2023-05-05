@@ -136,7 +136,7 @@ void rc_to_motor(void)
 		
 		FL.V -= (RC_Ctl.rc.ditl-1024)*0.005f; // RC_Ctl.rc.ditl // RC_Ctl.rc.ch0
 
-		FL.V = fmaxf(FL.V, 4500.0f);
+		FL.V = fmaxf(FL.V, 3000.0f);
 		FL.V = fminf(FL.V, 7800.0f);
 	}
 	if(RC_Ctl.rc.s1 == 2&&RC_Ctl.rc.s2 == 1)

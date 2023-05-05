@@ -5,7 +5,7 @@
 #include "STMGood.h"
 #include "pid.h"
 
-#define SPEED_SMOOTH_COEF 0.85f
+#define SPEED_SMOOTH_COEF 0.05f
 #define POSITION_SMOOTH_COEF 0.85f
 
 typedef float fp32;

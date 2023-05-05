@@ -66,8 +66,9 @@ void chassis_control_loop_reset(void)
 	pid_abs_param_init(&PITCH_S_PID,9,0.3,0,20000.0f,16000.0f);
 	pid_abs_param_init(&PITCH_P_PID,0.5,0.1,0,0.0f,4000.0f);
 	
-	pid_abs_param_init(&YAW_S_PID,80,10,0,20000.0f,28000.0f);
+	pid_abs_param_init(&YAW_S_PID,60,10,0,20000.0f,28000.0f);
 	pid_abs_param_init(&YAW_P_PID,5,80,0,0.0f,28000.0f);
+    // pid_abs_param_init(&YAW_P_PID,5,0,0,0.0f,28000.0f);
 	
 	pid_abs_param_init(&FIRE_L_S_PID,F_P,F_I,F_D,20000.0f,16000.0f);
 
@@ -80,7 +81,7 @@ void chassis_control_loop_reset(void)
 void chassis_motor_control_loop_pid_control(void)
 {
 	// YL.num += YL_error_correction(YL.num);
-	YL.num = fmaxf(YL.num, -2083.0f);
+	YL.num = fmaxf(YL.num, -3000.0f);
 	YL.num = fminf(YL.num, 1900.0f);
 	// FL.V += FL_error_correction();
 
