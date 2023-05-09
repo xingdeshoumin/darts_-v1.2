@@ -18,6 +18,7 @@ void USART1_IDLE_IRQ(void);
 
 extern uint8_t usart1_rx_buffer[18];
 extern uint8_t usart6_rx_buffer[30];
+extern uint8_t usart3_rx_buffer[18];
 extern uint8_t usart7_rx_buffer;
 extern int fputc(int ch, FILE *f);
 void deal_uart_IT(void);

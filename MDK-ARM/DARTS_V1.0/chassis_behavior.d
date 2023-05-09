@@ -48,3 +48,5 @@ darts_v1.0\chassis_behavior.o: ../Packages/bsp/bsp_usart.h
 darts_v1.0\chassis_behavior.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 darts_v1.0\chassis_behavior.o: ../Core/Inc/usart.h
 darts_v1.0\chassis_behavior.o: ../Core/Inc/main.h
+darts_v1.0\chassis_behavior.o: ..\Packages\target_finder\target_finder.h
+darts_v1.0\chassis_behavior.o: ../Packages/bsp/struct_typedef.h

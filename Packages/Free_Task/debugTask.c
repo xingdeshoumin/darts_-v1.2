@@ -51,15 +51,21 @@ void StartdebugTask(void const * argument)
         if ((count % 100) == 0)
         {
             // 10HZ
-            OLED_Printf(0, 5, 24, "FL: ");
-            OLED_Printf(0, 35, 24, "YL: ");
+            OLED_Printf(2, 0, 16, "FL: ");
+            OLED_Printf(2, 17, 16, "FT: ");
+            OLED_Printf(2, 33, 16, "YL: ");
+            OLED_Printf(2, 48, 16, "DS: ");
 
-            OLED_DrawSquare(45, 5, 128, 29);
-            OLED_DrawSquare(45, 37, 128, 60);
+            OLED_DrawSquare(35, 0, 128, 16);
+            OLED_DrawSquare(35, 17, 128, 32);
+            OLED_DrawSquare(35, 33, 128, 48);
+            OLED_DrawSquare(35, 48, 128, 64);
 
-            OLED_Printf(45, 5, 24, "%4d", fire_l.esc_back_speed);
-            OLED_Printf(45, 40, 24, "%4d", yaw.serial_position);
-
+            OLED_Printf(55, 0, 16, "%4d", fire_l.esc_back_speed);
+            OLED_Printf(55, 17, 16, "%.1f", FL.V);
+            OLED_Printf(55, 33, 16, "%4d", yaw.serial_position);
+            OLED_Printf(55, 48, 16, "%.3f", measure_distance);
+            // float measure_distance;
             OLED_Refresh(); //每次更改后，需要刷新
         }
 

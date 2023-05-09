@@ -5,12 +5,14 @@
 #include "bsp_dubs.h"
 #include "judge.h"
 
-uint8_t usart1_rx_buffer[18];
-uint8_t usart6_rx_buffer[30] = {0};
-uint8_t usart7_rx_buffer;
+uint8_t usart1_rx_buffer[18]; // SBUS
+uint8_t usart6_rx_buffer[30] = {0}; // 裁判系统
+uint8_t usart3_rx_buffer[18] = {0}; // 激光测距
+uint8_t usart7_rx_buffer; // DEBUG
 
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart6;
+extern UART_HandleTypeDef huart3;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern DMA_HandleTypeDef hdma_usart6_rx;
 extern DMA_HandleTypeDef hdma_usart7_rx;
@@ -64,6 +66,11 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 //		__HAL_UART_CLEAR_PEFLAG(&huart7);//清除中断标志位
 //		HAL_UART_Receive_IT(&huart7,&usart7_rx_buffer,1);//使能串口2
 //	}
+    if(huart->Instance == USART3)
+	{
+		__HAL_UART_CLEAR_PEFLAG(&huart3);//清除中断标志位
+		HAL_UART_Receive_IT(&huart3,usart3_rx_buffer,11);//使能串口2
+	}
 
 }
 

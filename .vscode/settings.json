@@ -35,6 +35,8 @@
         "stm32f427xx.h": "c",
         "string.h": "c",
         "bsp_flash.h": "c",
-        "cmsis_os.h": "c"
+        "cmsis_os.h": "c",
+        "target_finder.h": "c",
+        "bsp_dubs.h": "c"
     }
 }

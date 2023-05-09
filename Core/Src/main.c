@@ -105,10 +105,12 @@ int main(void)
   MX_SPI1_Init();
   MX_SPI5_Init();
   MX_TIM3_Init();
+  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
   USART_DMA_Enable(&huart1,&hdma_usart1_rx,usart1_rx_buffer,15);
   USART_Enable(&huart6,usart6_rx_buffer,1);
   USART_Enable(&huart7,&usart7_rx_buffer,1);
+  USART_Enable(&huart3,usart3_rx_buffer,11);
   CAN_Enable(&hcan1);
   dubs_data_init();
   io_init();

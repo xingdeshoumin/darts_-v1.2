@@ -42,6 +42,7 @@ extern float yaw_first_position;
 extern float pitch_first_position;
 extern int16_t dart_num;
 extern int16_t last_dart_num;
+extern float measure_distance;
 
 void rc_to_motor(void);
 void game_model(void);

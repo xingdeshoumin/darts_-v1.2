@@ -1,14 +1,15 @@
 #include "chassis_behavior.h"
 #include "bsp_dubs.h"
 #include "chassis_control.h"
-#include "bsp_dubs.h"
 #include "bsp_io.h"
 #include "stdlib.h"
 #include "cmath"
 #include "judge.h"
+#include "bsp_usart.h"
+#include "target_finder.h"
 
 #define motor_lence 750
-#define fire_speed 7450.0f
+#define fire_speed 8600.0f
 
 #define R_1 {1, 1, -75.0, 7350.0f, 0.0}
 #define R_4 {1, 4, -250.0, 7450.0f, 0.0}
@@ -25,8 +26,10 @@ rc_motor_message PL;
 rc_motor_message YL;
 rc_motor_message FL;
 
+float measure_distance;
+
 int flag_zero;
-int flag_zero_all;
+int flag_zero_all; // 零电流标志位
 int flag_first_position;
 int FL_V_Init_flag;
 int dart_num_Init_flag;
@@ -35,6 +38,7 @@ float yaw_first_position;
 float pitch_first_position;
 int16_t dart_num = 0;
 int16_t last_dart_num;
+int16_t FLV_count;
 
 void game_model(void)
 {
@@ -68,7 +72,7 @@ void game_model(void)
 		{
 			HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
 			flag_zero=1;
-			// FL.V=0;
+			FL.V=0;
 			LL.num=motor.esc_back_position*1.0f;
 		}
 
@@ -134,10 +138,28 @@ void rc_to_motor(void)
 			FL_V_Init_flag = 1;
 		}
 		
-		FL.V -= (RC_Ctl.rc.ditl-1024)*0.005f; // RC_Ctl.rc.ditl // RC_Ctl.rc.ch0
+		// FL.V -= (RC_Ctl.rc.ditl-1024)*0.005f; // RC_Ctl.rc.ditl // RC_Ctl.rc.ch0
+        if ((RC_Ctl.rc.ditl-1024) < -100 && (RC_Ctl.rc.ditl-1024) > -500 && FLV_count > 100){
+            FL.V += 10.0f;
+            FLV_count = 0;
+        }
+        if ((RC_Ctl.rc.ditl-1024) < -500 && FLV_count > 100){
+            FL.V += 100.0f;
+            FLV_count = 0;
+        }
+        if ((RC_Ctl.rc.ditl-1024) > 100 && (RC_Ctl.rc.ditl-1024) < 500 && FLV_count > 100){
+            FL.V -= 10.0f;
+            FLV_count = 0;
+        }
+        if ((RC_Ctl.rc.ditl-1024) > 500 && FLV_count > 100){
+            FL.V -= 100.0f;
+            FLV_count = 0;
+        }
 
+        if (FLV_count < 200)
+            FLV_count++;
 		FL.V = fmaxf(FL.V, 3000.0f);
-		FL.V = fminf(FL.V, 7800.0f);
+		FL.V = fminf(FL.V, 9200.0f);
 	}
 	if(RC_Ctl.rc.s1 == 2&&RC_Ctl.rc.s2 == 1)
 	{
@@ -227,7 +249,7 @@ void outpost_task(void)
 void rc_to_task(void)
 {
 
-	if(RC_Ctl.rc.s1 == 2)
+	if(RC_Ctl.rc.s1 == 2) // 左拨杆在下
 	{
 		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
 		flag_zero_all=0;
@@ -236,7 +258,7 @@ void rc_to_task(void)
 		//	phase = 0 ;
 		//	phase1 = 0;
 	}
-	else if(RC_Ctl.rc.s1 == 1)
+	else if(RC_Ctl.rc.s1 == 1) // 左拨杆在上
 	{
 		// HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
 		flag_zero_all=0;
@@ -255,7 +277,7 @@ void rc_to_task(void)
 		//yaw_task();
 		//task3();
 	}
-	else if(RC_Ctl.rc.s1 == 3)
+	else if(RC_Ctl.rc.s1 == 3) // 左拨杆在中
 	{
 		flag_zero_all=1;
 		flag_first_position=1;
@@ -263,6 +285,8 @@ void rc_to_task(void)
 		//yaw_task();
 		//task3();
 	}
+
+    u8Arry2float(usart3_rx_buffer, &measure_distance);
 }
 
 void process_motor_encoder_to_serial(motor_data_t *motor)

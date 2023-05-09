@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F427xx,USE_HAL_DRIVER,STM32F427xx,ARM_MATH_CM4,__FPU_USED=1U,__FPU_PRESENT=1U,__CC_ARM,__TARGET_FPU_VFP,ARM_MATH_MATRIX_CHECK,ARM_MATH_ROUNDING</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../Packages/Free_Task;../Packages/Algorithm;../Packages/bsp;../Packages/control;../Packages/Public_libs;../Packages/Sys_debug;../Packages/judge;../Packages/Components;../Packages/Components/Algorithm;../Packages/Components/Controller;..\Drivers\CMSIS\Include;../Packages/Components/Algorithm/Include</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../Packages/Free_Task;../Packages/Algorithm;../Packages/bsp;../Packages/control;../Packages/Public_libs;../Packages/Sys_debug;../Packages/judge;../Packages/Components;../Packages/Components/Algorithm;../Packages/Components/Controller;..\Drivers\CMSIS\Include;../Packages/Components/Algorithm/Include;..\Packages\target_finder</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -971,6 +971,16 @@
               <FileName>QuaternionEKF.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Packages\Components\Algorithm\QuaternionEKF.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>target_finder</GroupName>
+          <Files>
+            <File>
+              <FileName>target_finder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Packages\target_finder\target_finder.c</FilePath>
             </File>
           </Files>
         </Group>
