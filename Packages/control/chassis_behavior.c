@@ -26,7 +26,12 @@ rc_motor_message PL;
 rc_motor_message YL;
 rc_motor_message FL;
 
-float measure_distance;
+TargetInstance *outpost; // 前哨站瞄准数据
+TargetInstance *base; // 基地瞄准数据
+
+float caled_yaw;
+float measure_distance; // 目标与弹道原点的距离
+float last_measure_distance;
 
 int flag_zero;
 int flag_zero_all; // 零电流标志位
@@ -39,88 +44,102 @@ float pitch_first_position;
 int16_t dart_num = 0;
 int16_t last_dart_num;
 int16_t FLV_count;
+int16_t target_find_count;
 
 void game_model(void)
 {
-	if(Judge_GameState.game_progress == 4)//比赛进行中
-	{
-		if (dart_num_Init_flag == 0)
-		{
-			dart_num = 0;
-			dart_num_Init_flag = 1;
-		}
+	// if(Judge_GameState.game_progress == 4)//比赛进行中
+	// {
+	// 	if (dart_num_Init_flag == 0)
+	// 	{
+	// 		dart_num = 0;
+	// 		dart_num_Init_flag = 1;
+	// 	}
 
-		if(Judge_DartClientCmd.dart_launch_opening_status == 0)//闸门已开启
-		{
-			HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
+	// 	if(Judge_DartClientCmd.dart_launch_opening_status == 0)//闸门已开启
+	// 	{
+	// 		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
 
-			if (motor.circle_num<motor_lence)
-			{
-				LL.num += 450.0f;
-			}
+	// 		if (motor.circle_num<motor_lence)
+	// 		{
+	// 			LL.num += 450.0f;
+	// 		}
 
-			FL.V = dart_list[dart_num].delta_FL;
+	// 		FL.V = dart_list[dart_num].delta_FL;
 
-			flag_zero = 0;
-		}
-		else if(Judge_DartClientCmd.dart_launch_opening_status == 2)//闸门正在开启
-		{
-			flag_zero = 0;
-			FL.V = fire_speed;
-		}
-		else if(Judge_DartClientCmd.dart_launch_opening_status == 1)//闸门关闭
-		{
-			HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
-			flag_zero=1;
-			FL.V=0;
-			LL.num=motor.esc_back_position*1.0f;
-		}
+	// 		flag_zero = 0;
+	// 	}
+	// 	else if(Judge_DartClientCmd.dart_launch_opening_status == 2)//闸门正在开启
+	// 	{
+	// 		flag_zero = 0;
+	// 		FL.V = fire_speed;
+	// 	}
+	// 	else if(Judge_DartClientCmd.dart_launch_opening_status == 1)//闸门关闭
+	// 	{
+	// 		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
+	// 		flag_zero=1;
+	// 		FL.V=0;
+	// 		LL.num=motor.esc_back_position*1.0f;
+	// 	}
 
-		if (motor.circle_num < 319)
-		{
-			dart_num = 0;
-		}
-		else if (motor.circle_num < 580)
-		{
-			dart_num = 1;
-		}
-		else
-		{
-			dart_num = 2;
-		}
+	// 	if (motor.circle_num < 319)
+	// 	{
+	// 		dart_num = 0;
+	// 	}
+	// 	else if (motor.circle_num < 580)
+	// 	{
+	// 		dart_num = 1;
+	// 	}
+	// 	else
+	// 	{
+	// 		dart_num = 2;
+	// 	}
 		
-	}
-	else if(Judge_GameState.game_progress != 4)
-	{
-		if(RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 1)
-		{
-			dart_num = 0;
-		}
-		else if(RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 2)
-		{
-			dart_num = 2;
-		}
-		else if (RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 3)
-		{
-			dart_num = 1;
-		}
-		flag_zero = 1;
-		LL.num+=0;
+	// }
+	// else if(Judge_GameState.game_progress != 4)
+	// {
+	// 	if(RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 1)
+	// 	{
+	// 		dart_num = 0;
+	// 	}
+	// 	else if(RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 2)
+	// 	{
+	// 		dart_num = 2;
+	// 	}
+	// 	else if (RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 3)
+	// 	{
+	// 		dart_num = 1;
+	// 	}
+	// 	flag_zero = 1;
+	// 	LL.num+=0;
 
-		dart_num_Init_flag = 0;
-	}
+	// 	dart_num_Init_flag = 0;
+	// }
 
-	led_show(dart_list[dart_num].num);
-	led_show_color(dart_list[dart_num].color);
+	// led_show(dart_list[dart_num].num);
+	// led_show_color(dart_list[dart_num].color);
 
-	if (dart_num != last_dart_num)
-	{
-		YL.num -= dart_list[last_dart_num].delta_YL;
-		YL.num += dart_list[dart_num].delta_YL;
-		PL.num -= angle_to_pitch(dart_list[last_dart_num].delta_angle);
-		PL.num += angle_to_pitch(dart_list[dart_num].delta_angle);
-	}
+	// if (dart_num != last_dart_num)
+	// {
+	// 	YL.num -= dart_list[last_dart_num].delta_YL;
+	// 	YL.num += dart_list[dart_num].delta_YL;
+	// 	PL.num -= angle_to_pitch(dart_list[last_dart_num].delta_angle);
+	// 	PL.num += angle_to_pitch(dart_list[dart_num].delta_angle);
+	// }
 
+    if (target_find_count > 10 && usart3_updated_flag == 1){ // 分频等待测距仪变化
+        TargetFindOut(outpost, caled_yaw, measure_distance);
+        YL.num = -outpost->active_angle * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f + GIMBAL_OFFSET;
+        target_find_count = 0;
+        usart3_updated_flag = 0;
+    }
+    else{
+        target_find_count++;
+        if (target_find_count > 200)
+            target_find_count = 200;
+    }
+    
+    flag_zero = 1;
 	last_dart_num = dart_num;
 }
 
@@ -158,8 +177,6 @@ void rc_to_motor(void)
 
         if (FLV_count < 200)
             FLV_count++;
-		FL.V = fmaxf(FL.V, 3000.0f);
-		FL.V = fminf(FL.V, 9200.0f);
 	}
 	if(RC_Ctl.rc.s1 == 2&&RC_Ctl.rc.s2 == 1)
 	{
@@ -249,6 +266,9 @@ void outpost_task(void)
 void rc_to_task(void)
 {
 
+    u8Arry2float(usart3_rx_buffer, &measure_distance);
+    caled_yaw = (-(yaw.filted_position - GIMBAL_OFFSET) / 8192.0f * 360.0f) / REDUCTION_RATIO_WHEEL;
+
 	if(RC_Ctl.rc.s1 == 2) // 左拨杆在下
 	{
 		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
@@ -264,6 +284,46 @@ void rc_to_task(void)
 		flag_zero_all=0;
 		if(flag_first_position==1)
 		{
+            // Target_Init_Config_s outpost_config = {
+            //     .target_data = {
+            //         .angle_range_max = 10.5f,
+            //         .angle_range_min = 2.5f,
+            //         .distance_range_max = 16.5f,
+            //         .distance_range_min = 15.5f,
+
+            //         .find_out_layer = 5,
+            //         .find_out_step = 0.12f,
+            //     },
+            //     .target_type = OUTPOST,
+            // };
+            Target_Init_Config_s outpost_config = {
+                .target_data = {
+                    .angle_range_max = 0.22f,
+                    .angle_range_min = -2.93f,
+                    .distance_range_max = 6.5f,
+                    .distance_range_min = 5.5f,
+
+                    .find_out_layer = 4,
+                    .find_out_step = 0.24f, // 与距离相关
+                },
+                .target_type = OUTPOST,
+            };
+            Target_Init_Config_s base_config = {
+                .target_data = {
+                    .angle_range_max = 0.0f,
+                    .angle_range_min = -14.3f,
+                    .distance_range_max = 26.0f,
+                    .distance_range_min = 25.0f,
+
+                    .find_out_layer = 2,
+                    .find_out_step = 0.24f,
+                },
+                .target_type = BASE,
+            };
+
+            outpost = TargetInit(&outpost_config);
+            base = TargetInit(&base_config);
+
 			YL.num=yaw.serial_position*1.0f;
 			LL.num=motor.esc_back_position*1.0f;
 			PL.num=pitch.esc_back_position*1.0f;
@@ -285,8 +345,7 @@ void rc_to_task(void)
 		//yaw_task();
 		//task3();
 	}
-
-    u8Arry2float(usart3_rx_buffer, &measure_distance);
+    last_measure_distance = measure_distance;
 }
 
 void process_motor_encoder_to_serial(motor_data_t *motor)
@@ -297,10 +356,10 @@ void process_motor_encoder_to_serial(motor_data_t *motor)
 		--motor->circle_num;
 	else if(motor->esc_back_position - motor->esc_back_position_last < -6000) 
 		++motor->circle_num;
-	motor->serial_position = motor->esc_back_position + motor->circle_num * 8191.0f;
+	motor->serial_position = motor->esc_back_position + motor->circle_num * 8192.0f;
 	
 		//码盘值转换成角度
-	    motor->position_angle = motor->serial_position / 8191.0f * 360.0f;
+	    motor->position_angle = motor->serial_position / 8192.0f * 360.0f;
 	
 	motor->esc_back_position_last =  motor->esc_back_position;	
 }

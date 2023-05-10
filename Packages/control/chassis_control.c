@@ -84,6 +84,8 @@ void chassis_motor_control_loop_pid_control(void)
 	YL.num = fmaxf(YL.num, -3000.0f);
 	YL.num = fminf(YL.num, 1900.0f);
 	// FL.V += FL_error_correction();
+    FL.V = fmaxf(FL.V, 3000.0f);
+    FL.V = fminf(FL.V, 9200.0f);
 
 	motor.target_position = LL.num;
 	pitch.target_position = PL.num;

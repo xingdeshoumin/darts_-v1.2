@@ -9,6 +9,7 @@ uint8_t usart1_rx_buffer[18]; // SBUS
 uint8_t usart6_rx_buffer[30] = {0}; // 裁判系统
 uint8_t usart3_rx_buffer[18] = {0}; // 激光测距
 uint8_t usart7_rx_buffer; // DEBUG
+uint8_t usart3_updated_flag;
 
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart6;
@@ -70,6 +71,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	{
 		__HAL_UART_CLEAR_PEFLAG(&huart3);//清除中断标志位
 		HAL_UART_Receive_IT(&huart3,usart3_rx_buffer,11);//使能串口2
+        usart3_updated_flag = 1;
 	}
 
 }

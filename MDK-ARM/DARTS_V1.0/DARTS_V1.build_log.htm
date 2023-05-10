@@ -27,11 +27,29 @@ Project File Date:  05/08/2023
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\Program Files\keil_v5\ARM\ARMCC\Bin'
 Build target 'DARTS_V1'
+compiling target_finder.c...
+..\Packages\target_finder\target_finder.c(12): warning:  #223-D: function "memset" declared implicitly
+      memset(instance, 0, sizeof(TargetInstance));
+..\Packages\target_finder\target_finder.c(59): warning:  #174-D: expression has no effect
+          target->target_state == TARGET_CONVERGING;
+..\Packages\target_finder\target_finder.c(78): warning:  #174-D: expression has no effect
+                  target->target_state == NO_TARGET;
+..\Packages\target_finder\target_finder.c(82): warning:  #174-D: expression has no effect
+                  target->target_state == READY_TO_FIRE;
+..\Packages\target_finder\target_finder.c(87): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                  target->target_data.find_out_step /= 1.5;
+..\Packages\target_finder\target_finder.c(93): warning:  #174-D: expression has no effect
+          target->target_state == TARGET_CONVERGING;
+..\Packages\target_finder\target_finder.c(101): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+          *result = atof(data+3);
+..\Packages\target_finder\target_finder.c(103): warning:  #940-D: missing return statement at end of non-void function "u8Arry2float" 
+  }
+..\Packages\target_finder\target_finder.c: 8 warnings, 0 errors
 compiling chassis_behavior.c...
 linking...
-Program Size: Code=47700 RO-data=9852 RW-data=5960 ZI-data=32856  
+Program Size: Code=47524 RO-data=9916 RW-data=5932 ZI-data=33372  
 FromELF: creating hex file...
-"DARTS_V1.0\DARTS_V1.axf" - 0 Error(s), 0 Warning(s).
+"DARTS_V1.0\DARTS_V1.axf" - 0 Error(s), 8 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -55,7 +73,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>

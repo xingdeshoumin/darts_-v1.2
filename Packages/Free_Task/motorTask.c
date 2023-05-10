@@ -4,6 +4,7 @@
 //3.没做数据存储与应用（flash等） 4.飞镖架稳定性（摩擦轮除抖等）
 //5.yaw轴小齿大齿周向增设预紧力消除减小齿隙 6.飞镖做开关及充电口
 ////////////////////////////////////////////////////////////////
+// 15962
 // 25439
 
 #include "cmsis_os.h"
@@ -51,6 +52,7 @@ void Startmotor_task(void const * argument)
 			// CANTx_SendCurrent(&hcan1,0x200,motor.out_current,0,pitch.out_current,0);
 			CANTx_SendCurrent(&hcan1,0x200,motor.out_current,0,0,0);
 			CANTx_SendCurrent(&hcan1,0x1FF,0,yaw.out_current,0,0);
+            // CANTx_SendCurrent(&hcan1,0x1FF,0,0,0,0);
 
 		}
 		else
@@ -58,6 +60,7 @@ void Startmotor_task(void const * argument)
 			// CANTx_SendCurrent(&hcan1,0x200,motor.out_current,fire_l.out_current,pitch.out_current,fire_r.out_current);
 			CANTx_SendCurrent(&hcan1,0x200,motor.out_current,fire_l.out_current,0,fire_r.out_current);
 			CANTx_SendCurrent(&hcan1,0x1FF,0,yaw.out_current,0,0);
+            // CANTx_SendCurrent(&hcan1,0x1FF,0,0,0,0);
 		}
 		
 		

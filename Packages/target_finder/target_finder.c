@@ -25,8 +25,6 @@ void TargetFindOut(TargetInstance *target, float offset_angle, float laser_dista
     float angle_find_min;
     float middle_angle_find;
 
-    offset_angle /= REDUCTION_RATIO_WHEEL; // 返回当前云台和底盘对齐指向相同方向时的相对角度
-
     angle_find_max = target->target_data.angle_range_max;
     angle_find_min = target->target_data.angle_range_min;
     middle_angle_find = (angle_find_min + angle_find_max) / 2;
@@ -34,13 +32,13 @@ void TargetFindOut(TargetInstance *target, float offset_angle, float laser_dista
         if ((offset_angle < angle_find_min-TARGET_DEAD_ANGLE) || \
             (offset_angle >= middle_angle_find) && \
             (offset_angle < angle_find_max-TARGET_DEAD_ANGLE)){ // 向左边缘步进
-            target->active_angle = offset_angle + 1.0f;
+            target->active_angle = offset_angle + 0.1f;
             target->target_data.find_start_flag = 0;
         }
         else if ((offset_angle > angle_find_max+TARGET_DEAD_ANGLE) || \
                 (offset_angle < middle_angle_find) && \
                 (offset_angle > angle_find_min+TARGET_DEAD_ANGLE)){ // 向右边缘步进
-            target->active_angle = offset_angle - 1.0f;
+            target->active_angle = offset_angle - 0.1f;
             target->target_data.find_start_flag = 0;
         }
         else { // 到达目的地
@@ -86,9 +84,9 @@ void TargetFindOut(TargetInstance *target, float offset_angle, float laser_dista
             }
             else { // 进入下一层循环
                 target->target_data.find_out_layer--;
-                target->target_data.find_out_step /= 4;
-                target->target_data.angle_range_max = target->target_angle + (angle_find_max-middle_angle_find)/4;
-                target->target_data.angle_range_min = target->target_angle - (middle_angle_find-angle_find_min)/4;
+                target->target_data.find_out_step /= 1.5;
+                target->target_data.angle_range_max = target->target_angle + (angle_find_max-middle_angle_find)/2;
+                target->target_data.angle_range_min = target->target_angle - (middle_angle_find-angle_find_min)/2;
                 target->target_data.find_start_flag = 0;
             }
         }

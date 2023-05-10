@@ -205,6 +205,26 @@
           <WinNumber>1</WinNumber>
           <ItemText>FLV_count,0x0A</ItemText>
         </Ww>
+        <Ww>
+          <count>9</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>outpost</ItemText>
+        </Ww>
+        <Ww>
+          <count>10</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>caled_yaw</ItemText>
+        </Ww>
+        <Ww>
+          <count>11</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>YL.num</ItemText>
+        </Ww>
+        <Ww>
+          <count>12</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>YAW_S_PID.PIDout</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>

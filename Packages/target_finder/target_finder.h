@@ -5,8 +5,9 @@
 #include "stdlib.h"
 
 #define TARGET_DIS_INITIAL_VALUE 50.0f // 自瞄迭代距离变量的初值
-#define TARGET_DEAD_ANGLE 1.0f // 查找死区
-#define REDUCTION_RATIO_WHEEL 3.0f // 云台同步轮减速比
+#define TARGET_DEAD_ANGLE 0.05f // 查找死区
+#define REDUCTION_RATIO_WHEEL 11.0f // 云台同步轮减速比
+#define GIMBAL_OFFSET 120.0f // 云台与6020原点偏差 单位与6020返回值相同
 
 typedef enum
 {
