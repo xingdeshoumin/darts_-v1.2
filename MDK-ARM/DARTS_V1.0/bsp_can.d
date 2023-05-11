@@ -39,3 +39,5 @@ darts_v1.0\bsp_can.o: ../Packages/control/chassis_control.h
 darts_v1.0\bsp_can.o: ../Packages/Sys_debug/STMGood.h
 darts_v1.0\bsp_can.o: ../Packages/Algorithm/pid.h
 darts_v1.0\bsp_can.o: ../Packages/control/chassis_behavior.h
+darts_v1.0\bsp_can.o: ../Packages/control/darts_list.h
+darts_v1.0\bsp_can.o: ../Packages/bsp/struct_typedef.h

@@ -3,16 +3,7 @@
 
 #include "stm32f4xx.h"
 #include "chassis_control.h"
-
-
-typedef struct
-{
-	uint8_t color;			// 0 blue 1 red
-	uint8_t num;			// num
-	fp32 delta_YL;
-	fp32 delta_FL;
-	fp32 delta_angle;
-}dart_struct;
+#include "darts_list.h"
 
 typedef struct
 {

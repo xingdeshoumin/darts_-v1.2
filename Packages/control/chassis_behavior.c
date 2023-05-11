@@ -39,108 +39,153 @@ int flag_first_position;
 int FL_V_Init_flag;
 int dart_num_Init_flag;
 int low_FLV_flag;
+int target_change_flag;
 float yaw_first_position;
 float pitch_first_position;
 int16_t dart_num = 0;
 int16_t last_dart_num;
 int16_t FLV_count;
 int16_t target_find_count;
+int16_t ditl_state; // 自动模式拨轮状态标志位
+int16_t last_ditl_state; // 自动模式拨轮状态标志位
 
 void game_model(void)
 {
-	// if(Judge_GameState.game_progress == 4)//比赛进行中
-	// {
-	// 	if (dart_num_Init_flag == 0)
-	// 	{
-	// 		dart_num = 0;
-	// 		dart_num_Init_flag = 1;
-	// 	}
+	if(Judge_GameState.game_progress == 4)//比赛进行中
+	{
+		if (dart_num_Init_flag == 0)
+		{
+			dart_num = 0;
+			dart_num_Init_flag = 1;
+		}
 
-	// 	if(Judge_DartClientCmd.dart_launch_opening_status == 0)//闸门已开启
-	// 	{
-	// 		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
+		if(Judge_DartClientCmd.dart_launch_opening_status == 0)//闸门已开启
+		{
+			HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
 
-	// 		if (motor.circle_num<motor_lence)
-	// 		{
-	// 			LL.num += 450.0f;
-	// 		}
+			if (motor.circle_num<motor_lence)
+			{
+				LL.num += 450.0f;
+			}
 
-	// 		FL.V = dart_list[dart_num].delta_FL;
+			FL.V = dart_list[dart_num].delta_FL; // ...修改为不同镖在不同距离下的查表
 
-	// 		flag_zero = 0;
-	// 	}
-	// 	else if(Judge_DartClientCmd.dart_launch_opening_status == 2)//闸门正在开启
-	// 	{
-	// 		flag_zero = 0;
-	// 		FL.V = fire_speed;
-	// 	}
-	// 	else if(Judge_DartClientCmd.dart_launch_opening_status == 1)//闸门关闭
-	// 	{
-	// 		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
-	// 		flag_zero=1;
-	// 		FL.V=0;
-	// 		LL.num=motor.esc_back_position*1.0f;
-	// 	}
+			flag_zero = 0;
+		}
+		else if(Judge_DartClientCmd.dart_launch_opening_status == 2)//闸门正在开启
+		{
+			flag_zero = 0;
+			FL.V = fire_speed;
+		}
+		else if(Judge_DartClientCmd.dart_launch_opening_status == 1)//闸门关闭
+		{
+			HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
+			flag_zero=1;
+			FL.V=0;
+			LL.num=motor.esc_back_position*1.0f;
+		}
 
-	// 	if (motor.circle_num < 319)
-	// 	{
-	// 		dart_num = 0;
-	// 	}
-	// 	else if (motor.circle_num < 580)
-	// 	{
-	// 		dart_num = 1;
-	// 	}
-	// 	else
-	// 	{
-	// 		dart_num = 2;
-	// 	}
+        // ...需要在开机时把滑块调到特定位置， 后续改进
+		if (motor.circle_num < 319)
+		{
+			dart_num = 0;
+		}
+		else if (motor.circle_num < 580)
+		{
+			dart_num = 1;
+		}
+		else
+		{
+			dart_num = 2;
+		}
 		
-	// }
-	// else if(Judge_GameState.game_progress != 4)
-	// {
-	// 	if(RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 1)
-	// 	{
-	// 		dart_num = 0;
-	// 	}
-	// 	else if(RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 2)
-	// 	{
-	// 		dart_num = 2;
-	// 	}
-	// 	else if (RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 3)
-	// 	{
-	// 		dart_num = 1;
-	// 	}
-	// 	flag_zero = 1;
-	// 	LL.num+=0;
+	}
+	else if(Judge_GameState.game_progress != 4)
+	{
+		if(RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 1)
+		{
+			dart_num = 0;
+		}
+		else if(RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 2)
+		{
+			dart_num = 2;
+		}
+		else if (RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 3)
+		{
+			dart_num = 1;
+		}
+		flag_zero = 1;
+		// LL.num+=0;
 
-	// 	dart_num_Init_flag = 0;
-	// }
+		dart_num_Init_flag = 0;
+	}
 
-	// led_show(dart_list[dart_num].num);
-	// led_show_color(dart_list[dart_num].color);
+	led_show(dart_list[dart_num].num);
+	led_show_color(dart_list[dart_num].color);
 
-	// if (dart_num != last_dart_num)
-	// {
-	// 	YL.num -= dart_list[last_dart_num].delta_YL;
-	// 	YL.num += dart_list[dart_num].delta_YL;
-	// 	PL.num -= angle_to_pitch(dart_list[last_dart_num].delta_angle);
-	// 	PL.num += angle_to_pitch(dart_list[dart_num].delta_angle);
-	// }
+	if (dart_num != last_dart_num) // 根据调试表格调用相对坐标数据
+	{
+		YL.num -= dart_list[last_dart_num].delta_YL;
+		YL.num += dart_list[dart_num].delta_YL;
+		// PL.num -= angle_to_pitch(dart_list[last_dart_num].delta_angle);
+		// PL.num += angle_to_pitch(dart_list[dart_num].delta_angle);
+	}
 
     if (target_find_count > 10 && usart3_updated_flag == 1){ // 分频等待测距仪变化
-        TargetFindOut(outpost, caled_yaw, measure_distance);
-        YL.num = -outpost->active_angle * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f + GIMBAL_OFFSET;
+        if ((RC_Ctl.rc.ditl-1024) > 500){ // 拨轮向下
+            ditl_state = 1;
+        }
+        else if ((RC_Ctl.rc.ditl-1024) < -500){ // 拨轮向上
+            ditl_state = 2;
+        }
+        else{
+            ditl_state = 0;
+        }
+
+        if (last_ditl_state != ditl_state){ // 防止target_finder卡死
+            if (ditl_state == 1){
+                if (outpost->target_data.find_start_flag == 1){
+                    YL.num = -outpost->active_angle * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f + GIMBAL_OFFSET;
+                }
+                else{
+                    YL.num=yaw.serial_position*1.0f;
+                }
+            }
+            if (ditl_state == 2){
+                if (base->target_data.find_start_flag == 1){
+                    YL.num = -base->active_angle * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f + GIMBAL_OFFSET;
+                }
+                else{
+                    YL.num=yaw.serial_position*1.0f;
+                }
+            }
+
+            target_change_flag = 1;
+        }
+        else{
+            target_change_flag = 0;
+        }
+        
+
+        if (ditl_state == 1 && target_change_flag == 0){ // ...yaw缓慢移动待做
+            TargetFindOut(outpost, caled_yaw, measure_distance);
+            YL.num = -outpost->active_angle * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f + GIMBAL_OFFSET;
+        }
+        if (ditl_state == 2 && target_change_flag == 0){
+            TargetFindOut(base, caled_yaw, measure_distance);
+            YL.num = -base->active_angle * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f + GIMBAL_OFFSET;
+        }
         target_find_count = 0;
         usart3_updated_flag = 0;
     }
     else{
-        target_find_count++;
-        if (target_find_count > 200)
-            target_find_count = 200;
+        if (target_find_count < 200){
+            target_find_count++;
+        }
     }
     
-    flag_zero = 1;
 	last_dart_num = dart_num;
+    last_ditl_state = ditl_state;
 }
 
 void rc_to_motor(void)
@@ -284,39 +329,35 @@ void rc_to_task(void)
 		flag_zero_all=0;
 		if(flag_first_position==1)
 		{
-            // Target_Init_Config_s outpost_config = {
-            //     .target_data = {
-            //         .angle_range_max = 10.5f,
-            //         .angle_range_min = 2.5f,
-            //         .distance_range_max = 16.5f,
-            //         .distance_range_min = 15.5f,
-
-            //         .find_out_layer = 5,
-            //         .find_out_step = 0.12f,
-            //     },
-            //     .target_type = OUTPOST,
-            // };
             Target_Init_Config_s outpost_config = {
                 .target_data = {
-                    .angle_range_max = 0.22f,
-                    .angle_range_min = -2.93f,
+                    // .angle_range_max = 10.5f,
+                    // .angle_range_min = 2.5f,
+                    // .distance_range_max = 16.5f,
+                    // .distance_range_min = 15.5f,
+                    .angle_range_max = -3.62f,
+                    .angle_range_min = -6.36f,
                     .distance_range_max = 6.5f,
                     .distance_range_min = 5.5f,
 
-                    .find_out_layer = 4,
-                    .find_out_step = 0.24f, // 与距离相关
+                    .find_out_layer = 3,
+                    .find_out_step = 0.12f, // 与距离相关
                 },
                 .target_type = OUTPOST,
             };
             Target_Init_Config_s base_config = {
                 .target_data = {
-                    .angle_range_max = 0.0f,
-                    .angle_range_min = -14.3f,
-                    .distance_range_max = 26.0f,
-                    .distance_range_min = 25.0f,
+                    // .angle_range_max = 0.0f,
+                    // .angle_range_min = -14.3f,
+                    // .distance_range_max = 26.0f,
+                    // .distance_range_min = 25.0f,
+                    .angle_range_max = 2.48f,
+                    .angle_range_min = -0.38f,
+                    .distance_range_max = 9.0f,
+                    .distance_range_min = 8.0f,
 
-                    .find_out_layer = 2,
-                    .find_out_step = 0.24f,
+                    .find_out_layer = 3,
+                    .find_out_step = 0.12f,
                 },
                 .target_type = BASE,
             };

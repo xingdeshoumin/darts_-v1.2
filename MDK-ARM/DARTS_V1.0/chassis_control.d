@@ -37,5 +37,7 @@ darts_v1.0\chassis_control.o: ../Packages/Sys_debug/STMGood.h
 darts_v1.0\chassis_control.o: ../Packages/Algorithm/pid.h
 darts_v1.0\chassis_control.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\string.h
 darts_v1.0\chassis_control.o: ..\Packages\control\chassis_behavior.h
+darts_v1.0\chassis_control.o: ..\Packages\control\darts_list.h
+darts_v1.0\chassis_control.o: ../Packages/bsp/struct_typedef.h
 darts_v1.0\chassis_control.o: ../Packages/bsp/bsp_dubs.h
 darts_v1.0\chassis_control.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\math.h

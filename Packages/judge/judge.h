@@ -37,6 +37,7 @@ typedef __packed struct{
 	uint16_t stage_remain_time; /* 当前阶段剩余时间 s*/
 }ext_game_state_t;
 
+// 0x0201
 typedef __packed struct {
 	uint8_t robot_id;/* 机器人ID 
 									  * 1： 红英雄
@@ -67,6 +68,7 @@ typedef __packed struct {
 	uint8_t mains_power_shooter_output : 1; /* 发射摩擦轮电源输出情况 */
 } ext_game_robot_state_t;
 
+// 0x020A
 typedef __packed struct
 {
 uint8_t dart_launch_opening_status;  //  当前飞镖发射口状态

@@ -36,6 +36,8 @@ darts_v1.0\chassis_behavior.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal
 darts_v1.0\chassis_behavior.o: ..\Packages\control\chassis_control.h
 darts_v1.0\chassis_behavior.o: ../Packages/Sys_debug/STMGood.h
 darts_v1.0\chassis_behavior.o: ../Packages/Algorithm/pid.h
+darts_v1.0\chassis_behavior.o: ..\Packages\control\darts_list.h
+darts_v1.0\chassis_behavior.o: ../Packages/bsp/struct_typedef.h
 darts_v1.0\chassis_behavior.o: ../Packages/bsp/bsp_dubs.h
 darts_v1.0\chassis_behavior.o: ../Packages/bsp/bsp_io.h
 darts_v1.0\chassis_behavior.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
@@ -49,4 +51,3 @@ darts_v1.0\chassis_behavior.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include
 darts_v1.0\chassis_behavior.o: ../Core/Inc/usart.h
 darts_v1.0\chassis_behavior.o: ../Core/Inc/main.h
 darts_v1.0\chassis_behavior.o: ..\Packages\target_finder\target_finder.h
-darts_v1.0\chassis_behavior.o: ../Packages/bsp/struct_typedef.h

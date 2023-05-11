@@ -42,10 +42,10 @@ void USART1_IDLE_IRQ(void)
 {	
  	if(__HAL_UART_GET_FLAG(&huart1,UART_FLAG_IDLE) != RESET)
 	{
-			__HAL_UART_CLEAR_IDLEFLAG(&huart1);	//清除标志位和SR，DR寄存器
-			get_dbus_data(usart1_rx_buffer);
-		  HAL_UART_DMAStop(&huart1);
-			HAL_UART_Receive_DMA(&huart1,usart1_rx_buffer,18);//函数中包括重新配置DMA
+        __HAL_UART_CLEAR_IDLEFLAG(&huart1);	//清除标志位和SR，DR寄存器
+        get_dbus_data(usart1_rx_buffer);
+        HAL_UART_DMAStop(&huart1);
+        HAL_UART_Receive_DMA(&huart1,usart1_rx_buffer,18);//函数中包括重新配置DMA
 	}
 }
 

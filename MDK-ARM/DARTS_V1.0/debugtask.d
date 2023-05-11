@@ -58,6 +58,8 @@ darts_v1.0\debugtask.o: ../Packages/control/chassis_control.h
 darts_v1.0\debugtask.o: ../Packages/Algorithm/pid.h
 darts_v1.0\debugtask.o: ..\Packages\Free_Task\motorTask.h
 darts_v1.0\debugtask.o: ../Packages/control/chassis_behavior.h
+darts_v1.0\debugtask.o: ../Packages/control/darts_list.h
+darts_v1.0\debugtask.o: ../Packages/bsp/struct_typedef.h
 darts_v1.0\debugtask.o: ../Packages/bsp/bsp_dubs.h
 darts_v1.0\debugtask.o: ../Packages/bsp/oled.h
 darts_v1.0\debugtask.o: ../Core/Inc/gpio.h
