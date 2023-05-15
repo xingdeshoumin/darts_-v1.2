@@ -37,6 +37,8 @@
         "bsp_flash.h": "c",
         "cmsis_os.h": "c",
         "target_finder.h": "c",
-        "bsp_dubs.h": "c"
+        "bsp_dubs.h": "c",
+        "darts_list.h": "c",
+        "pid.h": "c"
     }
 }

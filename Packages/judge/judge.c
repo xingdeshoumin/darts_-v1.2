@@ -20,6 +20,7 @@ wl2data w2data;
 wl4data w4data;
 
 ext_game_state_t 														Judge_GameState;
+ext_game_robot_HP_t Judge_game_robot_HP;
 ext_game_robot_state_t											Judge_GameRobotState;
 ext_dart_client_cmd_t                       Judge_DartClientCmd;
 
@@ -122,14 +123,19 @@ void JudgeData(uint8_t data){
 							memcpy(&Judge_GameState,&ReceiveData[7],sizeof(ext_game_state_t));
 							break;
 						}
+                        case 0x0003:{
+                            JudgeReceivedNewDataSignal[1] = 1;
+                            memcpy(&Judge_game_robot_HP,&ReceiveData[7],sizeof(ext_game_robot_HP_t));
+                            break;
+						}
 						case 0x0201:{		
-							JudgeReceivedNewDataSignal[1] = 1;
+							JudgeReceivedNewDataSignal[2] = 1;
 							memcpy(&Judge_GameRobotState,&ReceiveData[7],sizeof(ext_game_robot_state_t));
 							break;
 						}
 						case 0x020A:{
-						JudgeReceivedNewDataSignal[2] = 1;
-						memcpy(&Judge_DartClientCmd,&ReceiveData[7],sizeof(ext_dart_client_cmd_t));
+                            JudgeReceivedNewDataSignal[3] = 1;
+                            memcpy(&Judge_DartClientCmd,&ReceiveData[7],sizeof(ext_dart_client_cmd_t));
 						}
 						
 					}

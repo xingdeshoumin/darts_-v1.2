@@ -37,6 +37,27 @@ typedef __packed struct{
 	uint16_t stage_remain_time; /* 当前阶段剩余时间 s*/
 }ext_game_state_t;
 
+// 0x0003
+typedef __packed struct
+{
+    uint16_t red_1_robot_HP; // 红 1 英雄机器人血量，未上场以及罚下血量为 0
+    uint16_t red_2_robot_HP; // 红 2 工程机器人血量
+    uint16_t red_3_robot_HP; // 红 3 步兵机器人血量
+    uint16_t red_4_robot_HP; // 红 4 步兵机器人血量
+    uint16_t red_5_robot_HP; // 红 5 步兵机器人血量
+    uint16_t red_7_robot_HP; // 红 7 哨兵机器人血量
+    uint16_t red_outpost_HP; // 红方前哨战血量
+    uint16_t red_base_HP; // 红方基地血量
+    uint16_t blue_1_robot_HP; // 蓝 1 英雄机器人血量
+    uint16_t blue_2_robot_HP; // 蓝 2 工程机器人血量
+    uint16_t blue_3_robot_HP; // 蓝 3 步兵机器人血量
+    uint16_t blue_4_robot_HP; // 蓝 4 步兵机器人血量
+    uint16_t blue_5_robot_HP; // 蓝 5 步兵机器人血量
+    uint16_t blue_7_robot_HP; // 蓝 7 哨兵机器人血量
+    uint16_t blueoutpost_HP; // 蓝方前哨站血量
+    uint16_t blue_base_HP; // 蓝方基地血量
+} ext_game_robot_HP_t;
+
 // 0x0201
 typedef __packed struct {
 	uint8_t robot_id;/* 机器人ID 
@@ -78,6 +99,7 @@ uint16_t operate_launch_cmd_time;
 } ext_dart_client_cmd_t;
 
 extern ext_game_state_t 														Judge_GameState;
+extern ext_game_robot_HP_t Judge_game_robot_HP;
 extern ext_game_robot_state_t											Judge_GameRobotState;
 extern ext_dart_client_cmd_t                       Judge_DartClientCmd;
 

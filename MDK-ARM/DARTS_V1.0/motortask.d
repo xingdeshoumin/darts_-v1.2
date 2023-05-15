@@ -49,9 +49,9 @@ darts_v1.0\motortask.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex
 darts_v1.0\motortask.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 darts_v1.0\motortask.o: ../Packages/Sys_debug/STMGood.h
 darts_v1.0\motortask.o: ../Packages/Algorithm/pid.h
+darts_v1.0\motortask.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\math.h
 darts_v1.0\motortask.o: ../Packages/control/chassis_behavior.h
-darts_v1.0\motortask.o: ../Packages/control/darts_list.h
-darts_v1.0\motortask.o: ../Packages/bsp/struct_typedef.h
 darts_v1.0\motortask.o: ../Packages/bsp/bsp_can.h
 darts_v1.0\motortask.o: ../Packages/bsp/bsp_dubs.h
 darts_v1.0\motortask.o: ../Packages/bsp/bsp_flash.h
+darts_v1.0\motortask.o: ../Packages/bsp/struct_typedef.h

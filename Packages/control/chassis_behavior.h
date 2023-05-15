@@ -3,7 +3,15 @@
 
 #include "stm32f4xx.h"
 #include "chassis_control.h"
-#include "darts_list.h"
+
+typedef struct
+{
+	uint8_t color;			// 0 blue 1 red
+	uint8_t num;			// num
+	float delta_YL;
+    float distance;
+	float delta_FL;
+}dart_struct;
 
 typedef struct
 {
@@ -41,6 +49,7 @@ void rc_to_motor(void);
 void game_model(void);
 void grab_to_motor(void);
 void process_motor_encoder_to_serial(motor_data_t *motor);
+float intermediate_data_compensation(int16_t dart_num, float measure_distance, int16_t ditl_state);
 void rc_to_task(void);
 void average_motor_speed(motor_data_t *motor);
 void add_dart_struct_array(dart_struct *p, dart_struct dart, uint32_t num);

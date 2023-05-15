@@ -7,19 +7,10 @@
 #include "judge.h"
 #include "bsp_usart.h"
 #include "target_finder.h"
+#include "darts_list.h"
 
 #define motor_lence 750
-#define fire_speed 8600.0f
-
-#define R_1 {1, 1, -75.0, 7350.0f, 0.0}
-#define R_4 {1, 4, -250.0, 7450.0f, 0.0}
-#define R_5 {1, 5, 100.0, 7390.0f, 0.0}		// ok -
-#define R_7 {1, 7, -550.0, 7400.0f, 0.0}	// 464
-#define B_1 {0, 1, -200.0, 7410.0f, 0.0}	// ok	// -180
-#define B_2 {0, 2, 0.0, 7380.0f, 0.0}		// ok - 
-#define B_4 {0, 4, -300.0, 7550.0f, 0.0}	// -264.0
-
-dart_struct dart_list[3] = {B_1, B_2, R_5};
+#define fire_speed 6000.0f
 
 rc_motor_message LL;
 rc_motor_message PL;
@@ -46,11 +37,75 @@ int16_t dart_num = 0;
 int16_t last_dart_num;
 int16_t FLV_count;
 int16_t target_find_count;
-int16_t ditl_state; // 自动模式拨轮状态标志位
+int16_t ditl_state; // 自动模式拨轮状态标志位 1 前哨站 2 基地
+int16_t gymbal_state;
 int16_t last_ditl_state; // 自动模式拨轮状态标志位
 
 void game_model(void)
 {
+    if ((RC_Ctl.rc.ditl-1024) > 500){ // 拨轮向下
+        ditl_state = 1;
+    }
+    else if ((RC_Ctl.rc.ditl-1024) < -500){ // 拨轮向上
+        ditl_state = 2;
+    }
+    else{
+        ditl_state = 0;
+    }
+
+    if (caled_yaw >= outpost->target_data.angle_range_min && caled_yaw <= outpost->target_data.angle_range_max){
+        gymbal_state = 1;
+    }
+    else if (caled_yaw >= base->target_data.angle_range_min && caled_yaw <= base->target_data.angle_range_max){
+        gymbal_state = 2;
+    }
+    else{
+        gymbal_state = 0;
+    }
+
+    if (target_find_count > 10 && usart3_updated_flag == 1){ // 分频等待测距仪变化
+        if (last_ditl_state != ditl_state){ // 防止target_finder卡死
+            if (ditl_state == 1){
+                if (outpost->target_data.find_start_flag == 1){
+                    YL.num = -outpost->active_angle * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f + GIMBAL_OFFSET;
+                }
+                else{
+                    YL.num=yaw.serial_position*1.0f;
+                }
+            }
+            if (ditl_state == 2){
+                if (base->target_data.find_start_flag == 1){
+                    YL.num = -base->active_angle * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f + GIMBAL_OFFSET;
+                }
+                else{
+                    YL.num=yaw.serial_position*1.0f;
+                }
+            }
+
+            target_change_flag = 1;
+        }
+        else{
+            target_change_flag = 0;
+        }
+        
+
+        if (ditl_state == 1 && target_change_flag == 0){ // ...yaw缓慢移动待做
+            TargetFindOut(outpost, caled_yaw, measure_distance);
+            YL.num = -outpost->active_angle * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f + GIMBAL_OFFSET;
+        }
+        if (ditl_state == 2 && target_change_flag == 0){
+            TargetFindOut(base, caled_yaw, measure_distance);
+            YL.num = -base->active_angle * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f + GIMBAL_OFFSET;
+        }
+        target_find_count = 0;
+        usart3_updated_flag = 0;
+    }
+    else{
+        if (target_find_count < 200){
+            target_find_count++;
+        }
+    }
+
 	if(Judge_GameState.game_progress == 4)//比赛进行中
 	{
 		if (dart_num_Init_flag == 0)
@@ -63,12 +118,16 @@ void game_model(void)
 		{
 			HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
 
-			if (motor.circle_num<motor_lence)
-			{
-				LL.num += 450.0f;
-			}
+			// if (motor.circle_num<motor_lence)
+			// {
+			// 	LL.num += 450.0f;
+			// }
 
-			FL.V = dart_list[dart_num].delta_FL; // ...修改为不同镖在不同距离下的查表
+			// FL.V = dart_list[dart_num].delta_FL; // ...修改为不同镖在不同距离下的查表
+            FL.V = (fp32)intermediate_data_compensation(dart_num, measure_distance, ditl_state);
+
+            FL.V = fmaxf(FL.V, 3000.0f);
+		    FL.V = fminf(FL.V, 7800.0f);
 
 			flag_zero = 0;
 		}
@@ -125,64 +184,9 @@ void game_model(void)
 
 	if (dart_num != last_dart_num) // 根据调试表格调用相对坐标数据
 	{
-		YL.num -= dart_list[last_dart_num].delta_YL;
-		YL.num += dart_list[dart_num].delta_YL;
-		// PL.num -= angle_to_pitch(dart_list[last_dart_num].delta_angle);
-		// PL.num += angle_to_pitch(dart_list[dart_num].delta_angle);
+		// YL.num -= dart_list[last_dart_num].delta_YL;
+		// YL.num += dart_list[dart_num].delta_YL;
 	}
-
-    if (target_find_count > 10 && usart3_updated_flag == 1){ // 分频等待测距仪变化
-        if ((RC_Ctl.rc.ditl-1024) > 500){ // 拨轮向下
-            ditl_state = 1;
-        }
-        else if ((RC_Ctl.rc.ditl-1024) < -500){ // 拨轮向上
-            ditl_state = 2;
-        }
-        else{
-            ditl_state = 0;
-        }
-
-        if (last_ditl_state != ditl_state){ // 防止target_finder卡死
-            if (ditl_state == 1){
-                if (outpost->target_data.find_start_flag == 1){
-                    YL.num = -outpost->active_angle * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f + GIMBAL_OFFSET;
-                }
-                else{
-                    YL.num=yaw.serial_position*1.0f;
-                }
-            }
-            if (ditl_state == 2){
-                if (base->target_data.find_start_flag == 1){
-                    YL.num = -base->active_angle * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f + GIMBAL_OFFSET;
-                }
-                else{
-                    YL.num=yaw.serial_position*1.0f;
-                }
-            }
-
-            target_change_flag = 1;
-        }
-        else{
-            target_change_flag = 0;
-        }
-        
-
-        if (ditl_state == 1 && target_change_flag == 0){ // ...yaw缓慢移动待做
-            TargetFindOut(outpost, caled_yaw, measure_distance);
-            YL.num = -outpost->active_angle * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f + GIMBAL_OFFSET;
-        }
-        if (ditl_state == 2 && target_change_flag == 0){
-            TargetFindOut(base, caled_yaw, measure_distance);
-            YL.num = -base->active_angle * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f + GIMBAL_OFFSET;
-        }
-        target_find_count = 0;
-        usart3_updated_flag = 0;
-    }
-    else{
-        if (target_find_count < 200){
-            target_find_count++;
-        }
-    }
     
 	last_dart_num = dart_num;
     last_ditl_state = ditl_state;
@@ -219,6 +223,9 @@ void rc_to_motor(void)
             FL.V -= 100.0f;
             FLV_count = 0;
         }
+
+        FL.V = fmaxf(FL.V, 3000.0f);
+		FL.V = fminf(FL.V, 7800.0f);
 
         if (FLV_count < 200)
             FLV_count++;
@@ -335,10 +342,10 @@ void rc_to_task(void)
                     // .angle_range_min = 2.5f,
                     // .distance_range_max = 16.5f,
                     // .distance_range_min = 15.5f,
-                    .angle_range_max = -3.62f,
-                    .angle_range_min = -6.36f,
-                    .distance_range_max = 6.5f,
-                    .distance_range_min = 5.5f,
+                    .angle_range_max = 7.0f,
+                    .angle_range_min = 5.0f,
+                    .distance_range_max = 17.0f,
+                    .distance_range_min = 15.5f,
 
                     .find_out_layer = 3,
                     .find_out_step = 0.12f, // 与距离相关
@@ -408,4 +415,75 @@ void process_motor_encoder_to_serial(motor_data_t *motor)
 float angle_to_pitch(float angle)
 {
 	return angle / (43.2 - 34.5) * (722906 + 4860916);
+}
+
+float intermediate_data_compensation(int16_t dart_num, float measure_distance, int16_t ditl_state)
+{
+    float distance_max;
+    float distance_min;
+    uint8_t count;
+    float cloest_distance;
+    uint8_t dart_count;
+    float delta_distance;
+    float delta_rpm;
+    float rate;
+
+    dart_count = dart_list[dart_num].color * 3 - 1 + dart_list[dart_num].num;
+    
+    if (gymbal_state == 1){ // outpost
+        cloest_distance = outpost_distance_list[dart_count][distance_list_lence / 2].distance;
+        distance_max = outpost_distance_list[dart_count][distance_list_lence-1].distance;
+        distance_min = outpost_distance_list[dart_count][0].distance;
+    }
+    else if (gymbal_state == 2){ // base
+        cloest_distance = base_distance_list[dart_count][distance_list_lence / 2].distance;
+        distance_max = base_distance_list[dart_count][distance_list_lence-1].distance;
+        distance_min = base_distance_list[dart_count][0].distance;
+    }
+
+    if ((measure_distance > distance_max) || (measure_distance < distance_min)){
+        return 0.0f;
+    }
+
+    count = distance_list_lence / 2;
+    while (fabsf(measure_distance - cloest_distance) > 0.2f){ // 循环查找离measure最近的格点 // ...值取决于标定时的间隔
+        if (measure_distance > cloest_distance){
+            count += count / 2 + 1;
+        }
+        else if (measure_distance < cloest_distance){
+            count -= count / 2;
+        }
+        if (gymbal_state == 1){
+            cloest_distance = outpost_distance_list[dart_count][count].distance;
+        }
+        else if (gymbal_state == 2){
+            cloest_distance = base_distance_list[dart_count][count].distance;
+        }
+    }
+    if (measure_distance == cloest_distance){
+        if (gymbal_state == 1){
+            return outpost_distance_list[dart_count][count].delta_FL;
+        }
+        else if (gymbal_state == 2){
+            return base_distance_list[dart_count][count].delta_FL;
+        }
+    }
+    else{
+        if (measure_distance > cloest_distance){
+            count++;
+        }
+        if (gymbal_state == 1){ // 按比例线性计算所需摩擦轮转速
+            delta_distance = (outpost_distance_list[dart_count][count].distance - outpost_distance_list[dart_count][count-1].distance);
+            delta_rpm = (outpost_distance_list[dart_count][count].delta_FL - outpost_distance_list[dart_count][count-1].delta_FL);
+            rate = ((measure_distance - outpost_distance_list[dart_count][count-1].distance) / delta_distance);
+            return  rate * delta_rpm + outpost_distance_list[dart_count][count-1].delta_FL;
+        }
+        else if (gymbal_state == 2){
+            delta_distance = (base_distance_list[dart_count][count].distance - base_distance_list[dart_count][count-1].distance);
+            delta_rpm = (base_distance_list[dart_count][count].delta_FL - base_distance_list[dart_count][count-1].delta_FL);
+            rate = ((measure_distance - base_distance_list[dart_count][count-1].distance) / delta_distance);
+            return  rate * delta_rpm + base_distance_list[dart_count][count-1].delta_FL;
+        }
+    }
+    
 }

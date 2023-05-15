@@ -56,10 +56,9 @@ darts_v1.0\debugtask.o: ../Core/Inc/main.h
 darts_v1.0\debugtask.o: ../Packages/bsp/bsp_can.h
 darts_v1.0\debugtask.o: ../Packages/control/chassis_control.h
 darts_v1.0\debugtask.o: ../Packages/Algorithm/pid.h
+darts_v1.0\debugtask.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\math.h
 darts_v1.0\debugtask.o: ..\Packages\Free_Task\motorTask.h
 darts_v1.0\debugtask.o: ../Packages/control/chassis_behavior.h
-darts_v1.0\debugtask.o: ../Packages/control/darts_list.h
-darts_v1.0\debugtask.o: ../Packages/bsp/struct_typedef.h
 darts_v1.0\debugtask.o: ../Packages/bsp/bsp_dubs.h
 darts_v1.0\debugtask.o: ../Packages/bsp/oled.h
 darts_v1.0\debugtask.o: ../Core/Inc/gpio.h
@@ -73,7 +72,6 @@ darts_v1.0\debugtask.o: ../Packages/Components/Algorithm/QuaternionEKF.h
 darts_v1.0\debugtask.o: ../Packages/Components/kalman_filter.h
 darts_v1.0\debugtask.o: ../Packages/Components/Algorithm/Include/arm_math.h
 darts_v1.0\debugtask.o: ../Drivers/CMSIS/Include/core_cm4.h
-darts_v1.0\debugtask.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\math.h
 darts_v1.0\debugtask.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 darts_v1.0\debugtask.o: ../Packages/Components/Controller/controller.h
 darts_v1.0\debugtask.o: ../Packages/bsp/bsp_dwt.h

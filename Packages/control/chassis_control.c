@@ -8,6 +8,7 @@
 float F_P=10,F_I=6.0,F_D=0.5;//Ä¦²ÁÂÖPID P£º6~10
 float F_F=0.012; // Ä¦²ÁÂÖÇ°À¡
 float YAW_F = 0.1; // yawÇ°À¡
+float tmp_correct;
 
 
 s_pid_absolute_t  MOTOR_S_PID= {0};
@@ -83,15 +84,13 @@ void chassis_motor_control_loop_pid_control(void)
 	// YL.num += YL_error_correction(YL.num);
 	YL.num = fmaxf(YL.num, -3000.0f);
 	YL.num = fminf(YL.num, 1900.0f);
-	// FL.V += FL_error_correction();
-    FL.V = fmaxf(FL.V, 3000.0f);
-    FL.V = fminf(FL.V, 9200.0f);
+	tmp_correct = FL_error_correction();
 
 	motor.target_position = LL.num;
 	pitch.target_position = PL.num;
 	yaw.target_position = YL.num;
-	fire_l.target_speed = FL.V;
-	fire_r.target_speed = -FL.V;
+	fire_l.target_speed = FL.V + tmp_correct;
+	fire_r.target_speed = -FL.V - tmp_correct;
 	
 	MOTOR_P_PID.NowError = motor.target_position - motor.serial_position;
 	PITCH_P_PID.NowError =pitch.target_position - pitch.serial_position;
@@ -166,8 +165,10 @@ float YL_error_correction(float YL)
 }
 
 float FL_error_correction(void)
-{	float return_num = (40.0f - (fire_l.esc_back_temperature + fire_r.esc_back_temperature) * 0.5f) / 15.0f * 50.0f;
-	return_num = fminf(return_num, 50.0f);
-	return_num = fmaxf(return_num, 0.0f);
+{
+    // float return_num = (40.0f - (fire_l.esc_back_temperature + fire_r.esc_back_temperature) * 0.5f) / 15.0f * 50.0f;
+    float return_num = ((fire_l.esc_back_temperature + fire_r.esc_back_temperature) * 0.5f - 29.0f) / 6.0f * 30.0f;
+	return_num = fminf(return_num, 120.0f);
+	return_num = fmaxf(return_num, -120.0f);
 	return return_num;
 }

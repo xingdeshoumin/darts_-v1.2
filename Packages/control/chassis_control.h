@@ -4,6 +4,7 @@
 #include "stm32f4xx_hal.h"
 #include "STMGood.h"
 #include "pid.h"
+#include "math.h"
 
 #define SPEED_SMOOTH_COEF 0.05f
 #define POSITION_SMOOTH_COEF 0.85f
@@ -77,6 +78,7 @@ extern motor_data_t fire_l ;
 
 
 extern int16_t deviation_out;
+extern float tmp_correct;
 
 
 void chassis_control_loop_init(void);

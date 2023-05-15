@@ -61,10 +61,12 @@ void StartdebugTask(void const * argument)
             OLED_DrawSquare(35, 33, 128, 48);
             OLED_DrawSquare(35, 48, 128, 64);
 
-            OLED_Printf(55, 0, 16, "%.2f", 180.0f + INS.Pitch);
-            OLED_Printf(55, 17, 16, "%.1f", FL.V);
-            OLED_Printf(55, 33, 16, "%.2f", caled_yaw);
-            OLED_Printf(55, 48, 16, "%.3f", measure_distance);
+            OLED_Printf(35, 0, 16, "%.1f", 180.0f + INS.Pitch);
+            OLED_Printf(96, 0, 16, "%.0f", tmp_correct);
+            OLED_Printf(35, 17, 16, "%.1f", FL.V);
+            OLED_Printf(35, 33, 16, "%.2f", caled_yaw);
+            OLED_Printf(88, 33, 16, "%4d", fire_l.esc_back_temperature);
+            OLED_Printf(35, 48, 16, "%.3f", measure_distance);
             
             OLED_Refresh(); //每次更改后，需要刷新
         }

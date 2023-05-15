@@ -19,11 +19,11 @@
 
 飞镖发射架在发射瞬间的响应使用240fps拍摄
 
-<video src="../../../Videos/Captures/IMG_9056.MOV"></video>
+<video src="updatelogs.assets/IMG_9056.MOV"></video>
 
 飞镖在弹道中的姿态
 
-<video src="../../../Videos/Captures/VID_20230502_144433.mp4"></video>
+<video src="updatelogs.assets/VID_20230502_144433.mp4"></video>
 
 ### 总结
 
@@ -48,17 +48,37 @@
 
 飞镖架发射瞬间的红点抖动
 
-<video src="../../../Videos/Captures/QQ视频20230509103541.mp4"></video>
+<video src="updatelogs.assets/QQ视频20230509103541.mp4"></video>
 
 飞镖在弹道中的姿态
 
-<video src="../../../Videos/Captures/5FAC98E3E07F1F0252A80ECA0C74D347.MP4"></video>
+<video src="updatelogs.assets/5FAC98E3E07F1F0252A80ECA0C74D347.MP4"></video>
 
 ### 总结
 
 - 摩擦轮的装配方式对于抑制振动至关重要（每颗螺丝需使用同一扭矩拧紧）
 - 飞镖弹道相较之前一致性大幅提高， 在弹道中几乎没有姿态发散， 尤其在yaw方向上
 - 摩擦轮转速需大幅拉高才能达到和之前pla镖一致的射程7450→8000rpm
-- 25m射程需约8700rpm
+- 25m射程需约8700rpm（需要换用更硬更不易开胶的摩擦轮）
 - 后续可进行飞镖在不同射程所需摩擦轮转速的标定
 - 后续增加飞镖发射初速的观测方式用于修正弹道模型
+
+## 2023-5-13
+
+### 测试前的修改内容
+
+- 更换一对全新摩擦轮（之前拉到9000的高转速动平衡失效）
+
+### 测试记录
+
+进行了一个镖的三连发的打， 图片显示了飞镖随摩擦轮温度上升射程下降
+
+![video_20230513_210340.00_00_00_04.Still001](updatelogs.assets/video_20230513_210340.00_00_00_04.Still001.png)
+
+![video_20230513_210340.00_00_00_13.Still002](updatelogs.assets/video_20230513_210340.00_00_00_13.Still002.png)
+
+![video_20230513_210340.00_00_00_24.Still003](updatelogs.assets/video_20230513_210340.00_00_00_24.Still003.png)
+
+### 总结
+
+- 温度补偿
