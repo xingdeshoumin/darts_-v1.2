@@ -149,7 +149,7 @@ void game_model(void) // 左拨杆向上即上场模式
 #if DEBUG_MODE != 1
 			if (motor.circle_num<motor_lence) // ...
 			{
-				LL.num += 450.0f;
+				LL.num += 660.0f;
 			}
 #endif
 			// FL.V = dart_list[dart_num].delta_FL; // ...修改为不同镖在不同距离下的查表
@@ -352,9 +352,13 @@ void rc_to_task(void)
 
 	if(RC_Ctl.rc.s1 == 2) // 左拨杆在下
 	{
+        if(flag_first_position!=2)
+		{
+            YL.num=yaw.serial_position*1.0f;
+        }
 		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
 		flag_zero_all=0;
-		flag_first_position=1;
+		flag_first_position=2;
 		rc_to_motor();
 		//	phase = 0 ;
 		//	phase1 = 0;
@@ -363,7 +367,7 @@ void rc_to_task(void)
 	{
 		// HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
 		flag_zero_all=0;
-		if(flag_first_position==1)
+		if(flag_first_position!=0)
 		{
             Target_Init_Config_s outpost_config = {
                 .target_data = {
