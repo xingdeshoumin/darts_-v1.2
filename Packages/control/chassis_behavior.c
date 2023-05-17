@@ -33,15 +33,18 @@ int low_FLV_flag;
 int target_change_flag;
 float yaw_first_position;
 float pitch_first_position;
+float flv_offset;
 int16_t dart_num = 0;
 int16_t last_dart_num;
 int16_t FLV_count;
 int16_t target_find_count;
 int16_t ditl_state; // 自动模式拨轮状态标志位 1 前哨站 2 基地
 int16_t gymbal_state;
+int16_t s2_state;
+int16_t last_s2_state;
 int16_t last_ditl_state; // 自动模式拨轮状态标志位
 
-void game_model(void)
+void game_model(void) // 左拨杆向上即上场模式
 {
     if ((RC_Ctl.rc.ditl-1024) > 500){ // 拨轮向下
         ditl_state = 1;
@@ -51,6 +54,19 @@ void game_model(void)
     }
     else{
         ditl_state = 0;
+    }
+
+    if(RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 1)
+    {
+        s2_state = 2;
+    }
+    else if(RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 2)
+    {
+        s2_state = 1;
+    }
+    else if (RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 3)
+    {
+        s2_state = 0;
     }
 
     if (caled_yaw >= outpost->target_data.angle_range_min && caled_yaw <= outpost->target_data.angle_range_max){
@@ -63,8 +79,15 @@ void game_model(void)
         gymbal_state = 0;
     }
 
+    if (last_s2_state == 1 && s2_state == 0){ // 右拨杆由下向中切换
+        flv_offset -= 10.0f;
+    }
+    else if (last_s2_state == 2 && s2_state == 0){ // 右拨杆由上向中切换
+        flv_offset += 10.0f;
+    }
+
     if (target_find_count > 10 && usart3_updated_flag == 1){ // 分频等待测距仪变化
-        if (last_ditl_state != ditl_state){ // 防止target_finder卡死
+        if (last_ditl_state != ditl_state){ // 防止target_finder卡死进行提前切换到合适的yaw
             if (ditl_state == 1){
                 if (outpost->target_data.find_start_flag == 1){
                     YL.num = -outpost->active_angle * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f + GIMBAL_OFFSET;
@@ -118,7 +141,7 @@ void game_model(void)
 		{
 			HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
 
-			// if (motor.circle_num<motor_lence)
+			// if (motor.circle_num<motor_lence) // ...
 			// {
 			// 	LL.num += 450.0f;
 			// }
@@ -126,6 +149,7 @@ void game_model(void)
 			// FL.V = dart_list[dart_num].delta_FL; // ...修改为不同镖在不同距离下的查表
             FL.V = (fp32)intermediate_data_compensation(dart_num, measure_distance, ditl_state);
 
+            FL.V += flv_offset;
             FL.V = fmaxf(FL.V, 3000.0f);
 		    FL.V = fminf(FL.V, 7800.0f);
 
@@ -141,48 +165,46 @@ void game_model(void)
 			HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
 			flag_zero=1;
 			FL.V=0;
+            // FL.V = fire_speed; // ...摩擦轮温度稳定落点是否稳定待测 // 温度越高一致性越差
 			LL.num=motor.esc_back_position*1.0f;
 		}
 
-        // ...需要在开机时把滑块调到特定位置， 后续改进
-		if (motor.circle_num < 319)
-		{
-			dart_num = 0;
-		}
-		else if (motor.circle_num < 580)
-		{
-			dart_num = 1;
-		}
-		else
-		{
-			dart_num = 2;
-		}
+        // ...需要在开机时把滑块调到特定位置， 后续改进 // 不进行飞镖逐个标定
+		// if (motor.circle_num < 319)
+		// {
+		// 	dart_num = 0;
+		// }
+		// else if (motor.circle_num < 580)
+		// {
+		// 	dart_num = 1;
+		// }
+		// else
+		// {
+		// 	dart_num = 2;
+		// }
 		
 	}
-	else if(Judge_GameState.game_progress != 4)
+	else if(Judge_GameState.game_progress != 4) // 不处于比赛中
 	{
-		if(RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 1)
-		{
-			dart_num = 0;
-		}
-		else if(RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 2)
-		{
-			dart_num = 2;
-		}
-		else if (RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 3)
-		{
-			dart_num = 1;
-		}
-		flag_zero = 1;
-		// LL.num+=0;
+        // if (last_s2_state == 1 && s2_state == 0){ // 右拨杆由下向中切换 // 不进行飞镖逐个标定
+        //     if (dart_num > -1){
+        //         dart_num--;
+        //     }
+        // }
+        // else if (last_s2_state == 2 && s2_state == 0){ // 右拨杆由上向中切换
+        //     if (dart_num < 3){
+        //         dart_num++;
+        //     }
+        // }
 
+		flag_zero = 1;
 		dart_num_Init_flag = 0;
 	}
 
 	led_show(dart_list[dart_num].num);
 	led_show_color(dart_list[dart_num].color);
 
-	if (dart_num != last_dart_num) // 根据调试表格调用相对坐标数据
+	if (dart_num != last_dart_num) // 根据调试表格调用相对坐标数据 // 不进行飞镖逐个标定
 	{
 		// YL.num -= dart_list[last_dart_num].delta_YL;
 		// YL.num += dart_list[dart_num].delta_YL;
@@ -190,9 +212,10 @@ void game_model(void)
     
 	last_dart_num = dart_num;
     last_ditl_state = ditl_state;
+    last_s2_state = s2_state;
 }
 
-void rc_to_motor(void)
+void rc_to_motor(void) // 左拨杆向下, 调试模式
 {
 	PL.num += (RC_Ctl.rc.ch3-1024)*1.0f;
 	YL.num += (RC_Ctl.rc.ch2-1024)*0.005f;
@@ -342,7 +365,7 @@ void rc_to_task(void)
                     // .angle_range_min = 2.5f,
                     // .distance_range_max = 16.5f,
                     // .distance_range_min = 15.5f,
-                    .angle_range_max = 7.0f,
+                    .angle_range_max = 8.0f,
                     .angle_range_min = 5.0f,
                     .distance_range_max = 17.0f,
                     .distance_range_min = 15.5f,
@@ -442,7 +465,7 @@ float intermediate_data_compensation(int16_t dart_num, float measure_distance, i
     }
 
     if ((measure_distance > distance_max) || (measure_distance < distance_min)){
-        return 0.0f;
+        return fire_speed;
     }
 
     count = distance_list_lence / 2;

@@ -84,7 +84,7 @@ void chassis_motor_control_loop_pid_control(void)
 	// YL.num += YL_error_correction(YL.num);
 	YL.num = fmaxf(YL.num, -3000.0f);
 	YL.num = fminf(YL.num, 1900.0f);
-	tmp_correct = FL_error_correction();
+	// tmp_correct = FL_error_correction();
 
 	motor.target_position = LL.num;
 	pitch.target_position = PL.num;
@@ -164,6 +164,12 @@ float YL_error_correction(float YL)
 	return back_num;
 }
 
+/*进行摩擦轮补偿的思想是，摩擦轮转速只减不加，由于机械做的十分优秀，在固定温度下给摩擦轮固定转速打出的弹速是一个很标准的正态分布，
+（所以这是前提）所以做了这个效果还不错，但是不做纯粹的每个温度对应多少摩擦轮转速的原因是，恒定摩擦轮转速下，温度对应弹速并非是简单一
+次线性，所以需要多次测试去整定超参数，为什么要只减不加呢，因为如果做的是完全的线性，那么有可能出现温度降下来后超射速，也造成了每辆车
+可能由于机械精度不同，每辆车的公式要重新整定，十分麻烦（毕竟调参要更简单），也可以避免由于机械误差导致弹速不稳定，给了机械一个余量*/
+
+// 猜测温度变化造成转速变化有可能是温度上升导致霍尔编码器灵敏度增高， 返回速度略微增大， 经过环路计算后， 实际转速减小
 float FL_error_correction(void)
 {
     // float return_num = (40.0f - (fire_l.esc_back_temperature + fire_r.esc_back_temperature) * 0.5f) / 15.0f * 50.0f;
