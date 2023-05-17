@@ -9,6 +9,7 @@
 #include "target_finder.h"
 #include "darts_list.h"
 
+#define DEBUG_MODE 1
 #define motor_lence 750
 #define fire_speed 6000.0f
 
@@ -46,7 +47,7 @@ int16_t last_ditl_state; // 自动模式拨轮状态标志位
 
 void game_model(void) // 左拨杆向上即上场模式
 {
-    if ((RC_Ctl.rc.ditl-1024) > 500){ // 拨轮向下
+    if ((RC_Ctl.rc.ditl-1024) > 500){ // 拨轮向下 // 更新拨轮状态标志位
         ditl_state = 1;
     }
     else if ((RC_Ctl.rc.ditl-1024) < -500){ // 拨轮向上
@@ -56,7 +57,7 @@ void game_model(void) // 左拨杆向上即上场模式
         ditl_state = 0;
     }
 
-    if(RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 1)
+    if(RC_Ctl.rc.s1 == 1&&RC_Ctl.rc.s2 == 1) // 更新右拨杆状态标志位
     {
         s2_state = 2;
     }
@@ -69,7 +70,7 @@ void game_model(void) // 左拨杆向上即上场模式
         s2_state = 0;
     }
 
-    if (caled_yaw >= outpost->target_data.angle_range_min && caled_yaw <= outpost->target_data.angle_range_max){
+    if (caled_yaw >= outpost->target_data.angle_range_min && caled_yaw <= outpost->target_data.angle_range_max){ // 更新yaw方向状态标志位
         gymbal_state = 1;
     }
     else if (caled_yaw >= base->target_data.angle_range_min && caled_yaw <= base->target_data.angle_range_max){
@@ -78,12 +79,18 @@ void game_model(void) // 左拨杆向上即上场模式
     else{
         gymbal_state = 0;
     }
-
-    if (last_s2_state == 1 && s2_state == 0){ // 右拨杆由下向中切换
+    
+    if (last_s2_state == 1 && s2_state == 0 && (RC_Ctl.rc.ch2-1024) < 500 && (RC_Ctl.rc.ch2-1024) > -500){ // 右拨杆由下向中切换
         flv_offset -= 10.0f;
     }
-    else if (last_s2_state == 2 && s2_state == 0){ // 右拨杆由上向中切换
+    else if (last_s2_state == 2 && s2_state == 0 && (RC_Ctl.rc.ch2-1024) < 500 && (RC_Ctl.rc.ch2-1024) > -500){ // 右拨杆由上向中切换
         flv_offset += 10.0f;
+    }
+    else if ((last_s2_state == 2 || last_s2_state == 1) && s2_state == 0 && (RC_Ctl.rc.ch2-1024) > 500){ // 拨杆由任意向中切换+摇杆
+        YL.num += 0.05f * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f;
+    }
+    else if ((last_s2_state == 2 || last_s2_state == 1) && s2_state == 0 && (RC_Ctl.rc.ch2-1024) < -500){
+        YL.num -= 0.05f * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f;
     }
 
     if (target_find_count > 10 && usart3_updated_flag == 1){ // 分频等待测距仪变化
@@ -110,7 +117,6 @@ void game_model(void) // 左拨杆向上即上场模式
         else{
             target_change_flag = 0;
         }
-        
 
         if (ditl_state == 1 && target_change_flag == 0){ // ...yaw缓慢移动待做
             TargetFindOut(outpost, caled_yaw, measure_distance);
@@ -140,12 +146,12 @@ void game_model(void) // 左拨杆向上即上场模式
 		if(Judge_DartClientCmd.dart_launch_opening_status == 0)//闸门已开启
 		{
 			HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
-
-			// if (motor.circle_num<motor_lence) // ...
-			// {
-			// 	LL.num += 450.0f;
-			// }
-
+#if DEBUG_MODE != 1
+			if (motor.circle_num<motor_lence) // ...
+			{
+				LL.num += 450.0f;
+			}
+#endif
 			// FL.V = dart_list[dart_num].delta_FL; // ...修改为不同镖在不同距离下的查表
             FL.V = (fp32)intermediate_data_compensation(dart_num, measure_distance, ditl_state);
 
@@ -361,10 +367,6 @@ void rc_to_task(void)
 		{
             Target_Init_Config_s outpost_config = {
                 .target_data = {
-                    // .angle_range_max = 10.5f,
-                    // .angle_range_min = 2.5f,
-                    // .distance_range_max = 16.5f,
-                    // .distance_range_min = 15.5f,
                     .angle_range_max = 8.0f,
                     .angle_range_min = 5.0f,
                     .distance_range_max = 17.0f,
@@ -400,6 +402,7 @@ void rc_to_task(void)
 			PL.num=pitch.esc_back_position*1.0f;
 			yaw_first_position = YL.num;
 			pitch_first_position = PL.num;
+            flv_offset = 0.0f;
 			flag_first_position=0;
 		}
 		
