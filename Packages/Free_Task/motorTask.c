@@ -25,7 +25,7 @@ void Startmotor_task(void const * argument)
 	osDelay(6000);//µ»can÷–∂œ
 	// 6020∑µ÷µbug
 	YL.num=yaw.serial_position*1.0f;
-	LL.num=motor.esc_back_position*1.0f;
+	LL.num=motor.serial_position*1.0f;
 	PL.num=pitch.esc_back_position*1.0f;
 
 	// uint32_t *message;

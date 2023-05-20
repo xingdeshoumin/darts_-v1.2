@@ -4,6 +4,7 @@
 #include "bsp_dubs.h"
 #include "STMGood.h"
 #include "math.h"
+#include "target_finder.h"
 
 float F_P=10,F_I=6.0,F_D=0.5;//Ä¦²ÁÂÖPID P£º6~10
 float F_F=0.012; // Ä¦²ÁÂÖÇ°À¡
@@ -82,8 +83,8 @@ void chassis_control_loop_reset(void)
 void chassis_motor_control_loop_pid_control(void)
 {
 	// YL.num += YL_error_correction(YL.num);
-	YL.num = fmaxf(YL.num, -3000.0f);
-	YL.num = fminf(YL.num, 1900.0f);
+	YL.num = fmaxf(YL.num, (-9.71 * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f + GIMBAL_OFFSET));
+	YL.num = fminf(YL.num, (10.61 * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f + GIMBAL_OFFSET));
 	// tmp_correct = FL_error_correction();
 
 	motor.target_position = LL.num;
