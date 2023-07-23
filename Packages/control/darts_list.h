@@ -25,7 +25,15 @@ const dart_struct dart_list[3] = {B_1, B_2, R_5};
 #define R_1_17077 {0, 1, 6.0, 17.077, 6150.0f}
 #define R_1_19969 {0, 1, 6.0, 19.969, 6650.0f}
 
-const dart_struct outpost_distance_list[][distance_list_lence] = {{R_1_15828, R_1_16030, R_1_16267, R_1_16463, R_1_16650, R_1_16852, R_1_17077},
+#define C_1_15828 {0, 1, -0.3, 15.828, 5840.0f} // 实测数据
+#define C_1_16030 {0, 1, -0.2, 16.020, 5880.0f}
+#define C_1_16267 {0, 1, -0.2, 16.263, 5920.0f}
+#define C_1_16463 {0, 1, -0.0, 16.462, 5960.0f}
+#define C_1_16650 {0, 1, -0.1, 16.655, 6000.0f}
+#define C_1_16852 {0, 1, -0.1, 16.854, 6040.0f}
+#define C_1_17077 {0, 1, -0.1, 17.077, 6080.0f}
+
+const dart_struct outpost_distance_list[][distance_list_lence] = {{C_1_15828, C_1_16030, C_1_16267, C_1_16463, C_1_16650, C_1_16852, C_1_17077},
                                                             };
 
 #define B_2_25318 {1, 2, -75.0, 25.277, 7800.0f} // 实测数据 20:41
@@ -34,7 +42,7 @@ const dart_struct outpost_distance_list[][distance_list_lence] = {{R_1_15828, R_
 #define R_0_25423 {0, 0, -0.3, 25.423, 7570.0f} // 仅该项估计
 #define R_1_25423 {0, 1, -0.4, 25.423, 7520.0f}
 #define R_2_25423 {0, 2, -0.3, 25.423, 7800.0f} // pass // 可能是湿度过大导致需要更高转速
-#define R_3_25423 {0, 3, -0.9, 25.423, 7240.0f} // ABS
+#define R_3_25423 {0, 3, -0.9, 25.423, 7230.0f} // ABS
 
 #define R_1_25223 {0, 1, -0.4, 25.223, 7490.0f} // 解算数据
 #define R_1_25423 {0, 1, -0.4, 25.423, 7520.0f}
@@ -44,7 +52,15 @@ const dart_struct outpost_distance_list[][distance_list_lence] = {{R_1_15828, R_
 #define R_1_26223 {0, 1, -0.4, 26.023, 7670.0f}
 #define R_1_26423 {0, 1, -0.4, 26.023, 7700.0f}
 
-const dart_struct base_distance_list[][distance_list_lence] = {{R_1_25223, R_1_25423, R_1_25623, R_1_25823, R_1_26023, R_1_26223, R_1_26423},
+#define C_1_25223 {0, 1, -1.0, 25.223, 7400.0f} // 实测数据
+#define C_1_25423 {0, 1, -1.0, 25.426, 7450.0f}
+#define C_1_25623 {0, 1, -1.0, 25.626, 7490.0f}
+#define C_1_25823 {0, 1, -0.8, 25.820, 7520.0f}
+#define C_1_26023 {0, 1, -0.8, 26.027, 7550.0f}
+#define C_1_26223 {0, 1, -0.8, 26.224, 7580.0f}
+#define C_1_26423 {0, 1, -0.7, 26.427, 7610.0f}
+
+const dart_struct base_distance_list[][distance_list_lence] = {{C_1_25223, C_1_25423, C_1_25623, C_1_25823, C_1_26023, C_1_26223, C_1_26423},
                                                          };
 
 #endif // !DARTS_LIST_H

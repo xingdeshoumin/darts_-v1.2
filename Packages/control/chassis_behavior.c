@@ -10,7 +10,9 @@
 #include "darts_list.h"
 
 #define DEBUG_MODE 0
-#define motor_lence 750
+// #define motor_lence 730 // 装3发+1个不带头的镖体
+// #define motor_lence 810 // 装四发但是振动过大容易误发射
+#define motor_lence 940
 #define fire_speed 6000.0f
 
 rc_motor_message LL;
@@ -84,10 +86,26 @@ void game_model(void) // 左拨杆向上即上场模式
 
     /**************************** 操作信息 ****************************/
     if (last_s2_state == 1 && s2_state == 0 && (RC_Ctl.rc.ch2-1024) < 500 && (RC_Ctl.rc.ch2-1024) > -500 && (RC_Ctl.rc.ch3-1024) < 500 && (RC_Ctl.rc.ch3-1024) > -500 && (RC_Ctl.rc.ch0-1024) < 500 && (RC_Ctl.rc.ch0-1024) > -500){ // 右拨杆由下向中切换
-        flv_offset -= 10.0f; // 可在OLED上查看当前FL.V但转不转摩擦轮取决于当前比赛状态
+        if (ditl_state == 0){
+            flv_offset -= 10.0f; // 可在OLED上查看当前FL.V但转不转摩擦轮取决于当前比赛状态
+        }
+        else if (ditl_state == 2){
+            flv_offset -= 500.0f;
+        }
+        else if (ditl_state == 1){
+            flv_offset -= 100.0f;
+        }
     }
     else if (last_s2_state == 2 && s2_state == 0 && (RC_Ctl.rc.ch2-1024) < 500 && (RC_Ctl.rc.ch2-1024) > -500 && (RC_Ctl.rc.ch3-1024) < 500 && (RC_Ctl.rc.ch3-1024) > -500 && (RC_Ctl.rc.ch0-1024) < 500 && (RC_Ctl.rc.ch0-1024) > -500){ // 右拨杆由上向中切换
-        flv_offset += 10.0f;
+        if (ditl_state == 0){
+            flv_offset += 10.0f; // 可在OLED上查看当前FL.V但转不转摩擦轮取决于当前比赛状态
+        }
+        else if (ditl_state == 2){
+            flv_offset += 500.0f;
+        }
+        else if (ditl_state == 1){
+            flv_offset += 100.0f;
+        }
     }
     else if ((last_s2_state == 2 || last_s2_state == 1) && s2_state == 0 && (RC_Ctl.rc.ch2-1024) > 500){ // 拨杆由任意向中切换+左摇杆向左
         YL.num += 0.05f * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f;
@@ -108,7 +126,7 @@ void game_model(void) // 左拨杆向上即上场模式
     FL.V = (fp32)caled_flv;
     FL.V += flv_offset;
 
-    /**************************** target_finder ****************************/ // 暂时没法用
+    /**************************** target_finder ****************************/ // 暂时没法用 // 测前哨站距离有概率返回0， 无法使用target_finder
 
     // if (target_find_count > 10 && ((usart3_updated_flag == 1) || (ditl_state == 1 && outpost->target_data.find_start_flag == 0) || (ditl_state == 2 && base->target_data.find_start_flag == 0))){ // 分频等待测距仪变化
     //     if (last_ditl_state != ditl_state){ // 防止target_finder卡死进行提前切换到合适的yaw
@@ -181,7 +199,7 @@ void game_model(void) // 左拨杆向上即上场模式
 		{
 			HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
 
-            if (fire_l.esc_back_temperature < 29){ // 温度控制
+            if (fire_l.esc_back_temperature < 39){ // 温度控制
                 flag_zero = 0;
             }
             else {
@@ -190,7 +208,7 @@ void game_model(void) // 左拨杆向上即上场模式
 
 			
             // ...摩擦轮温度稳定落点是否稳定待测 // 在前哨站距离下温度越高一致性越差， 基地距离下没有明显影响
-			LL.num=motor.esc_back_position*1.0f;
+			// LL.num=motor.esc_back_position*1.0f; // ...乐
 		}
 
         /**************************** 飞镖逐个标定 ****************************/
@@ -414,7 +432,7 @@ void rc_to_task(void) // 路口函数
                     // .distance_range_max = 26.0f,
                     // .distance_range_min = 23.0f,
                     .angle_range_max = -0.0f,
-                    .angle_range_min = 10.61f,
+                    .angle_range_min = -10.61f,
                     .distance_range_max = 26.023f,
                     .distance_range_min = 25.223f,
 
