@@ -38,3 +38,7 @@ darts_v1.0\stm32f4xx_it.o: ../Packages/bsp/bsp_usart.h
 darts_v1.0\stm32f4xx_it.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 darts_v1.0\stm32f4xx_it.o: ../Core/Inc/usart.h
 darts_v1.0\stm32f4xx_it.o: ../Packages/Sys_debug/STMGood.h
+darts_v1.0\stm32f4xx_it.o: ../Packages/control/chassis_behavior.h
+darts_v1.0\stm32f4xx_it.o: ../Packages/control/chassis_control.h
+darts_v1.0\stm32f4xx_it.o: ../Packages/Algorithm/pid.h
+darts_v1.0\stm32f4xx_it.o: D:\Program Files\keil_v5\ARM\ARMCC\Bin\..\include\math.h

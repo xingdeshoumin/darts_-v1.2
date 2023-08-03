@@ -4,6 +4,12 @@
 #include "stm32f4xx.h"
 #include "chassis_control.h"
 
+typedef enum
+{
+    UNTRIGGERED = 0,
+    TRIGGERED,
+} Switch_Status_e;
+
 typedef struct
 {
 	uint8_t color;			// 0 blue 1 red
@@ -44,6 +50,7 @@ extern int16_t last_dart_num;
 extern float measure_distance;
 extern float last_measure_distance;
 extern float caled_yaw;
+extern Switch_Status_e switch_state;
 
 void rc_to_motor(void);
 void game_model(void);

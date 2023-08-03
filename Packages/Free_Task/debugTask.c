@@ -27,7 +27,7 @@ void StartdebugTask(void const * argument)
   /* Infinite loop */
   	for(;;)
   	{
-		uart_dma_printf(&huart7, "%4.3f, %d, %d, %d, %4.3f, %d, %4.3f, %d, %4.3f, %d, %4.3f, %4.3f, %4.3f, %4.3f, %4.3f, %4.3f, %4.3f\n", 
+		uart_dma_printf(&huart7, "%4.3f, %d, %d, %d, %4.3f, %d, %4.3f, %d, %4.3f, %d, %4.3f, %4.3f, %4.3f, %4.3f, %4.3f, %4.3f, %d\n", 
             fire_l.average_speed, 
             fire_l.out_current,
             fire_l.esc_back_temperature,
@@ -44,7 +44,7 @@ void StartdebugTask(void const * argument)
             INS.Accel[0],
             INS.Accel[1],
             INS.Accel[2],
-            MPU6500.Temperature
+            switch_state
 		);
 
 

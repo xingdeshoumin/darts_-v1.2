@@ -39,6 +39,7 @@
         "target_finder.h": "c",
         "bsp_dubs.h": "c",
         "darts_list.h": "c",
-        "pid.h": "c"
+        "pid.h": "c",
+        "debugtask.h": "c"
     }
 }

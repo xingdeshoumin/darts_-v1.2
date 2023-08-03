@@ -12,7 +12,7 @@
 #define DEBUG_MODE 0
 // #define motor_lence 730 // 装3发+1个不带头的镖体
 // #define motor_lence 810 // 装四发但是振动过大容易误发射
-#define motor_lence 940
+// #define motor_lence 940
 #define fire_speed 6000.0f
 
 rc_motor_message LL;
@@ -22,6 +22,8 @@ rc_motor_message FL;
 
 TargetInstance *outpost; // 前哨站瞄准数据
 TargetInstance *base; // 基地瞄准数据
+
+Switch_Status_e switch_state;
 
 float caled_yaw;
 float measure_distance; // 目标与弹道原点的距离
@@ -34,6 +36,8 @@ int FL_V_Init_flag;
 int dart_num_Init_flag;
 int low_FLV_flag;
 int target_change_flag;
+int motor_count_Init_flag;
+int ll_stop_flag;
 float yaw_first_position;
 float pitch_first_position;
 float flv_offset;
@@ -42,6 +46,8 @@ int16_t dart_num = 0;
 int16_t last_dart_num;
 int16_t FLV_count;
 int16_t target_find_count;
+int64_t motor_lence = 940;
+int64_t motor_count;
 int16_t ditl_state; // 自动模式拨轮状态标志位 1 前哨站 2 基地
 int16_t gymbal_state;
 int16_t s2_state;
@@ -114,7 +120,7 @@ void game_model(void) // 左拨杆向上即上场模式
         YL.num -= 0.05f * REDUCTION_RATIO_WHEEL / 360.0f * 8192.0f;
     }
     else if ((last_s2_state == 2 || last_s2_state == 1) && s2_state == 0 && (RC_Ctl.rc.ch3-1024) > 500){ // 拨杆由任意向中切换+左摇杆向上
-        YL.num  = yaw_first_position;
+        ll_stop_flag = ll_stop_flag ? 0 : 1;
     }
     else if ((last_s2_state == 2 || last_s2_state == 1) && s2_state == 0 && (RC_Ctl.rc.ch3-1024) < -500){ // 拨杆由任意向中切换+左摇杆向下
         flv_offset = 0.0f;
@@ -183,7 +189,7 @@ void game_model(void) // 左拨杆向上即上场模式
 		{
 			HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
 #if DEBUG_MODE != 1
-			if (motor.circle_num<motor_lence) // ...
+			if (motor.circle_num<motor_lence && ll_stop_flag == 0) // ...
 			{
 				LL.num += 660.0f;
 			}
@@ -193,6 +199,7 @@ void game_model(void) // 左拨杆向上即上场模式
 		}
 		else if(Judge_DartClientCmd.dart_launch_opening_status == 2)//闸门正在开启
 		{
+            ll_stop_flag = 0;
 			flag_zero = 0;
 		}
 		else if(Judge_DartClientCmd.dart_launch_opening_status == 1)//闸门关闭
@@ -294,7 +301,7 @@ void rc_to_motor(void) // 左拨杆向下, 调试模式
         }
 
         FL.V = fmaxf(FL.V, 3000.0f);
-		FL.V = fminf(FL.V, 7800.0f); // 8000
+		FL.V = fminf(FL.V, 7800.0f);
 
         if (FLV_count < 200)
             FLV_count++;
@@ -318,6 +325,17 @@ void rc_to_motor(void) // 左拨杆向下, 调试模式
 	}
 	if(RC_Ctl.rc.s1 == 2&&RC_Ctl.rc.s2 == 3)
 	{
+        if ((RC_Ctl.rc.ditl-1024) > 300) // 执行校准
+		{
+            
+			motor_lence = motor.circle_num;
+
+		}
+        else if ((RC_Ctl.rc.ditl-1024) < -300) // 重置校准
+		{
+			motor_lence = 940;
+		}
+
 		flag_zero = 1;
 
 		FL_V_Init_flag = 0;

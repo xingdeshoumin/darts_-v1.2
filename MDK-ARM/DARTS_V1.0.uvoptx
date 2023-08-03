@@ -273,11 +273,6 @@
         <Ww>
           <count>22</count>
           <WinNumber>1</WinNumber>
-          <ItemText>tmp_correct</ItemText>
-        </Ww>
-        <Ww>
-          <count>23</count>
-          <WinNumber>1</WinNumber>
           <ItemText>fire_l</ItemText>
         </Ww>
       </WatchWindow1>
