@@ -268,7 +268,7 @@ void game_model(void) // 左拨杆向上即上场模式
     last_s2_state = s2_state;
 }
 
-void rc_to_motor(void) // 左拨杆向下, 调试模式
+void rc_to_motor(void) // 左拨杆向中, 调试模式
 {
 	PL.num += (RC_Ctl.rc.ch3-1024)*1.0f;
 	YL.num += (RC_Ctl.rc.ch2-1024)*0.005f;
@@ -325,13 +325,13 @@ void rc_to_motor(void) // 左拨杆向下, 调试模式
 	}
 	if(RC_Ctl.rc.s1 == 2&&RC_Ctl.rc.s2 == 3)
 	{
-        if ((RC_Ctl.rc.ditl-1024) > 300) // 执行校准
+        if ((RC_Ctl.rc.ditl-1024) > 300) // 拨轮向下执行校准
 		{
             
 			motor_lence = motor.circle_num;
 
 		}
-        else if ((RC_Ctl.rc.ditl-1024) < -300) // 重置校准
+        else if ((RC_Ctl.rc.ditl-1024) < -300) // 拨轮向上重置校准
 		{
 			motor_lence = 940;
 		}

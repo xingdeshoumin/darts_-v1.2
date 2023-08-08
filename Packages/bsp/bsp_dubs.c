@@ -19,7 +19,7 @@ void dubs_data_init(void)
 	RC_Ctl.rc.ch2 = 1024;
 	RC_Ctl.rc.ch3 = 1024;
 	RC_Ctl.rc.ditl = 1024;
-	RC_Ctl.rc.s1 = MID;
+	RC_Ctl.rc.s1 = DOWN;
 	RC_Ctl.rc.s2 =MID;
 }
 

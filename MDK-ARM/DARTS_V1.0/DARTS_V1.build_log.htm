@@ -27,7 +27,17 @@ Project File Date:  05/08/2023
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\Program Files\keil_v5\ARM\ARMCC\Bin'
 Build target 'DARTS_V1'
-"DARTS_V1.0\DARTS_V1.axf" - 0 Error(s), 0 Warning(s).
+compiling bsp_dubs.c...
+compiling chassis_behavior.c...
+..\Packages\control\darts_list.h(66): warning:  #1-D: last line of file ends without a newline
+  #endif // !DARTS_LIST_H
+..\Packages\control\chassis_behavior.c(582): warning:  #940-D: missing return statement at end of non-void function "intermediate_data_compensation" 
+  }
+..\Packages\control\chassis_behavior.c: 2 warnings, 0 errors
+linking...
+Program Size: Code=48852 RO-data=10184 RW-data=5968 ZI-data=33400  
+FromELF: creating hex file...
+"DARTS_V1.0\DARTS_V1.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -51,7 +61,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:11
 </pre>
 </body>
 </html>
