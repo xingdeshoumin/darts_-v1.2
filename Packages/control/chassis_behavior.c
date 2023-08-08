@@ -408,7 +408,7 @@ void rc_to_task(void) // 路口函数
     u8Arry2float(usart3_rx_buffer, &measure_distance);
     caled_yaw = (-(yaw.filted_position - GIMBAL_OFFSET) / 8192.0f * 360.0f) / REDUCTION_RATIO_WHEEL;
 
-	if(RC_Ctl.rc.s1 == 2) // 左拨杆在下
+	if(RC_Ctl.rc.s1 == 3) // 左拨杆在中
 	{
         if(flag_first_position!=2)
 		{
@@ -477,7 +477,7 @@ void rc_to_task(void) // 路口函数
 		//yaw_task();
 		//task3();
 	}
-	else if(RC_Ctl.rc.s1 == 3) // 左拨杆在中
+	else if(RC_Ctl.rc.s1 == 2) // 左拨杆在下
 	{
 		flag_zero_all=1;
 		flag_first_position=1;
