@@ -273,7 +273,7 @@ void rc_to_motor(void) // 左拨杆向中, 调试模式
 	PL.num += (RC_Ctl.rc.ch3-1024)*1.0f;
 	YL.num += (RC_Ctl.rc.ch2-1024)*0.005f;
 
-	if(RC_Ctl.rc.s1 == 2&&RC_Ctl.rc.s2 == 2)
+	if(RC_Ctl.rc.s2 == 2)
 	{
 		flag_zero = 0;
 		if (FL_V_Init_flag == 0)
@@ -306,7 +306,7 @@ void rc_to_motor(void) // 左拨杆向中, 调试模式
         if (FLV_count < 200)
             FLV_count++;
 	}
-	if(RC_Ctl.rc.s1 == 2&&RC_Ctl.rc.s2 == 1)
+	if(RC_Ctl.rc.s2 == 1)
 	{
 		flag_zero = 0;
 		if ((RC_Ctl.rc.ditl-1024) < -300)
@@ -323,7 +323,7 @@ void rc_to_motor(void) // 左拨杆向中, 调试模式
 
 		FL_V_Init_flag = 0;
 	}
-	if(RC_Ctl.rc.s1 == 2&&RC_Ctl.rc.s2 == 3)
+	if(RC_Ctl.rc.s2 == 3)
 	{
         if ((RC_Ctl.rc.ditl-1024) > 300) // 拨轮向下执行校准
 		{

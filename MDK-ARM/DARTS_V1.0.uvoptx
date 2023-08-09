@@ -302,6 +302,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>FL.V</ItemText>
         </Ww>
+        <Ww>
+          <count>25</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>cloest_distance</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>
