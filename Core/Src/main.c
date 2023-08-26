@@ -22,6 +22,7 @@
 #include "cmsis_os.h"
 #include "can.h"
 #include "dma.h"
+#include "sdio.h"
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
@@ -106,6 +107,7 @@ int main(void)
   MX_SPI5_Init();
   MX_TIM3_Init();
   MX_USART3_UART_Init();
+  MX_SDIO_SD_Init();
   /* USER CODE BEGIN 2 */
   USART_DMA_Enable(&huart1,&hdma_usart1_rx,usart1_rx_buffer,15);
   USART_Enable(&huart6,usart6_rx_buffer,1);
@@ -160,7 +162,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLM = 6;
   RCC_OscInitStruct.PLL.PLLN = 180;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-  RCC_OscInitStruct.PLL.PLLQ = 4;
+  RCC_OscInitStruct.PLL.PLLQ = 8;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();

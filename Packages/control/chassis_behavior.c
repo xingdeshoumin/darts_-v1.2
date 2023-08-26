@@ -93,7 +93,7 @@ void game_model(void) // 左拨杆向上即上场模式
     /**************************** 操作信息 ****************************/
     if (last_s2_state == 1 && s2_state == 0 && (RC_Ctl.rc.ch2-1024) < 500 && (RC_Ctl.rc.ch2-1024) > -500 && (RC_Ctl.rc.ch3-1024) < 500 && (RC_Ctl.rc.ch3-1024) > -500 && (RC_Ctl.rc.ch0-1024) < 500 && (RC_Ctl.rc.ch0-1024) > -500){ // 右拨杆由下向中切换
         if (ditl_state == 0){
-            flv_offset -= 10.0f; // 可在OLED上查看当前FL.V但转不转摩擦轮取决于当前比赛状态
+            flv_offset -= 5.0f; // 可在OLED上查看当前FL.V但转不转摩擦轮取决于当前比赛状态
         }
         else if (ditl_state == 2){
             flv_offset -= 500.0f;
@@ -104,7 +104,7 @@ void game_model(void) // 左拨杆向上即上场模式
     }
     else if (last_s2_state == 2 && s2_state == 0 && (RC_Ctl.rc.ch2-1024) < 500 && (RC_Ctl.rc.ch2-1024) > -500 && (RC_Ctl.rc.ch3-1024) < 500 && (RC_Ctl.rc.ch3-1024) > -500 && (RC_Ctl.rc.ch0-1024) < 500 && (RC_Ctl.rc.ch0-1024) > -500){ // 右拨杆由上向中切换
         if (ditl_state == 0){
-            flv_offset += 10.0f; // 可在OLED上查看当前FL.V但转不转摩擦轮取决于当前比赛状态
+            flv_offset += 5.0f; // 可在OLED上查看当前FL.V但转不转摩擦轮取决于当前比赛状态
         }
         else if (ditl_state == 2){
             flv_offset += 500.0f;

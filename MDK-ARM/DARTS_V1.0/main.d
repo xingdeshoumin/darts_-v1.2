@@ -29,6 +29,8 @@ darts_v1.0\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h
 darts_v1.0\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h
 darts_v1.0\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 darts_v1.0\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
+darts_v1.0\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_sd.h
+darts_v1.0\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_sdmmc.h
 darts_v1.0\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h
 darts_v1.0\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 darts_v1.0\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
@@ -49,6 +51,7 @@ darts_v1.0\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 darts_v1.0\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 darts_v1.0\main.o: ../Core/Inc/can.h
 darts_v1.0\main.o: ../Core/Inc/dma.h
+darts_v1.0\main.o: ../Core/Inc/sdio.h
 darts_v1.0\main.o: ../Core/Inc/spi.h
 darts_v1.0\main.o: ../Core/Inc/tim.h
 darts_v1.0\main.o: ../Core/Inc/usart.h
